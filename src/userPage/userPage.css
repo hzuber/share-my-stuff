@@ -1,0 +1,62 @@
+body{
+    margin: 0px;
+    font-family:'Roboto', sans-serif;
+  }
+.userPage-container{
+    padding-top: 50px;
+  }
+.welcome-user{
+    margin: 10px;
+    padding:10px;
+  }
+  .items-bar{
+    display: flex;
+    list-style-type: none;
+    background-color: lightgrey;
+    font-size: 20px;
+    align-items: flex-end;
+  }
+  .items-bar li{
+    padding: 10px;
+    margin-right: 50px;
+    align-self: center;
+  }
+  .sort{
+    font-size: 16px;
+  }
+  .add-item{
+    font-size: 16px;
+  }
+  .my-items{
+    font-size:24px;
+    font-weight: bolder;
+  }
+  .items-container{
+    display: flex;
+    list-style-type: none;
+    flex-wrap: wrap;
+  }
+  .items-container li{
+    font-size:18px;
+    padding: 15px;
+    border: 5px solid lightgrey;
+    background: lightgrey;
+    border-radius: 10px;
+    margin:10px;
+  }
+  .items-container li:hover{
+      cursor: pointer;
+      background-color: rgb(243, 241, 241);
+      border: 5px solid rgb(243, 241, 241);
+      transition: 0.3s;
+  }
+  .author{
+      font-size: 15px;
+  }
+  .borrowed{
+    border: 5px solid black !important;
+  }
+  .borrowed-by{
+    font-size:14px;
+    margin: 5px 0px;
+  }

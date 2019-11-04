@@ -1,0 +1,84 @@
+.complete-overlay{
+    z-index: 1;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+.display-block {
+    display: block;
+}
+.display-none {
+    display: none;
+}
+@media only screen and (max-width: 620px) {
+    .modal {
+      width: 100% !important;
+      left: 0 !important;
+      top: 0 !important;
+      height: 100% !important;
+    }
+  }
+  .close{
+    text-align:right;
+    font-family: 'Staatliches', cursive;
+    font-size: 30px;
+    margin-top: -10px;
+    margin-right: -20px;
+    padding: 10px;
+    background: grey;
+    outline: none;
+    box-shadow: none;
+    border: none;
+  }
+  .close:hover{
+    color: white;
+    cursor: pointer;
+  }
+  .modal {
+    font-family: 'Roboto', sans-serif;
+    padding: 10px 20px;
+    width: 50%;
+    max-width: 600px;
+    min-width: 300px;
+    position: fixed; 
+    background: gray;
+    height: 80vh;
+    z-index: 1; 
+    top: 10vh;
+    left: 30%;
+    overflow: auto;
+    border: 2px solid grey;
+  }
+  .modal-form{
+    margin: 30px;
+  }
+  .modal-form h2{
+    text-align:center;
+    margin: -50px 20px 20px 20px;
+  }
+  .modal-form label{
+    font-size: 20px;
+    margin: 40px 5px
+  }
+  .modal-form input{
+    padding: 5px;
+    margin: 10px 0px;
+  }
+  .sign-up-button{  
+    border-radius: 5px;
+    margin: 10px 30%;
+    width: 120px;
+    font-size: 24px;
+    padding: 5px 10px;
+    border: 2px solid lightgrey;
+  }
+  .sign-up-button:hover{
+    cursor: pointer;
+    background: black;
+    color: white;
+    border: 2px solid black;
+    transition: 0.3s;
+  }

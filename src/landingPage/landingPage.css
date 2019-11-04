@@ -1,0 +1,55 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+  }
+  .landing-page-header{
+    background: black;
+    color: white;
+    text-align: center;
+    min-height: 250px;
+  }
+  h1{
+    font-size: 100px;
+    padding: 80px 50px;
+    font-family: 'Staatliches', cursive;
+    letter-spacing: 3px
+  }
+  .landing-page-content{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    padding: 40px;
+  }
+  h3{
+    font-weight: lighter;
+    line-height: 1.4em
+  }
+  .button-wrapper{
+    padding: 30px 20px 0px 20px;
+    text-align: center;
+    margin: auto;
+  }
+  .log-in-btn{
+    border-radius: 5px;
+    margin: 10px 30%;
+    width: 120px;
+    font-size: 24px;
+    padding: 5px 10px;
+    border: 2px solid lightgrey;
+  }
+  .log-in-btn:hover{
+      cursor: pointer;
+      background: black;
+      color: white;
+      border: 2px solid black;
+      transition: 0.3s;
+  }
+  .sign-up-link:hover{
+    cursor: pointer;
+    transition: 0.3s;
+    color: grey;
+}
+  .sign-up-link{
+    font-size: 18px;
+    padding: 5px;
+    text-decoration: underline;
+  }

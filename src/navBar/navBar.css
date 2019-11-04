@@ -1,0 +1,20 @@
+.nav-bar{
+    width: 100%;
+    top: 0;
+    position: fixed;
+}
+.nav-ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  .nav-header{
+    font-family: 'Staatliches', cursive;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    padding: 5px;
+    letter-spacing: 2px;
+  }
