@@ -15,29 +15,28 @@
     display: none;
 }
   @media only screen and (max-width: 620px) {
-    .modal {
+    .login-modal {
       width: 100% !important;
       left: 0 !important;
       top: 15% !important;
     }
   }
-  .close{
-    text-align:right;
+  .login-close{
+    float:right;
     font-family: 'Staatliches', cursive;
     font-size: 30px;
-    margin-top: -10px;
-    margin-right: -20px;
     padding: 10px;
+    margin: -5px -5px 0px 0px;
     background: grey;
     outline: none;
     box-shadow: none;
     border: none;
   }
-  .close:hover{
+  .login-close:hover{
     color: white;
     cursor: pointer;
   }
-  .modal {
+  .login-modal {
     opacity: 1 !important;
     z-index: 2 !important;
     font-family: 'Roboto', sans-serif;
@@ -52,18 +51,18 @@
     left: 25%;
     overflow: auto;
   }
-  .modal-form{
+  .login-modal-form{
     margin: 30px;
   }
-  .modal-form h2{
+  .login-modal-form h2{
     text-align:center;
-    margin: -50px 20px 20px 20px;
+    margin: 20px;
   }
-  .modal-form label{
+  .login-modal-form label{
     font-size: 20px;
     margin: 5px
   }
-  .modal-form input{
+  .login-modal-form input{
     padding: 5px;
     margin: 10px 0px;
   }

@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import './signupModal.css'
 
 const SignUpModal = ({ handleClose, show }) => {
-    const showHideClassName = show ? "modal display-block" : "modal display-none";
+    const showHideClassName = show ? "signup-modal display-block" : "signup-modal display-none";
 
     return (
         <div className={showHideClassName}>
-            <section class="modal">
-                <button type="button" className="close" onClick={handleClose}>X</button>
-                <form className="modal-form">
+            <section class="signup-modal">
+                <button type="button" className="signup-close" onClick={handleClose}>X</button>
+                <form className="signup-modal-form">
                     <h2>Create A New Account</h2>
                     <label for="username">Choose a Username:</label>
                     <br />
@@ -39,11 +39,13 @@ const SignUpModal = ({ handleClose, show }) => {
                     <br />
                     <input type="text" name="hint" id="hint"/>
                     <br />
-                    <Link to = {`/userPage`}>
-                        <button type="submit" class="sign-up-button">
-                            Login
-                        </button>
-                    </Link>
+                    <div className="signup-button-wrapper">
+                        <Link to = {`/userPage`}>
+                            <button type="submit" class="sign-up-button">
+                                Sign Up
+                            </button>
+                        </Link>
+                    </div>
                 </form>
             </section>  
             <div className="complete-overlay" onClick={handleClose}>

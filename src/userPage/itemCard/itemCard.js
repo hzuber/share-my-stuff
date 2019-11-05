@@ -28,11 +28,24 @@ function generateIcon(type) {
 class ItemCard extends Component {
     constructor(props) {
         super(props)
+        const item = this.props
+        const {name, type, author, description, borrowed, borrowed_by} = this.props.item
         this.state = {
             clicked: false,
             largeCardShowing: false,
-            editCardShowing: false
+            editCardShowing: false,
+            item : {name, type, author, description, borrowed, borrowed_by}
         }
+        console.log(item, this.state.item)
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.setState({
+            clicked: false,
+            largeCardShowing: false,
+            editCardShowing: false
+        })
     }
 
     clickCard = () => {
@@ -65,41 +78,111 @@ class ItemCard extends Component {
         console.log(this.state)
     }
 
+    changeText = (e) => {
+        const key = e.target.id
+        const val = e.target.value
+        this.setState.item({
+            [key]: val
+        })
+    }
+
+    markAsBorrowed = (e) => {
+        this.setState({
+            item:{borrowed: true},
+            largeCardShowing: false,
+            editCardShowing: true
+        })
+    }
+
+    markAsReturned = (e) => {
+        this.setState({
+            item:{borrowed: false}
+        })
+    }
+
     render() {
-        const { item } = this.props;
-        const card = <li className={item.borrowed ? "borrowed" : null} onClick={this.clickCard}>
-                        {generateIcon(item.type)}
-                        <p className="item-name">
-                            {item.name}
-                        </p>
-                        {item.type === "Book" && <p className="author">
-                            Author: {item.author}</p>}
-                        {item.borrowed && <p className="borrowed-by">
-                            Item being borrowed by: {item.borrowed_by}
+        const { clicked, editCardShowing, largeCardShowing } = this.state;
+        const {name, type, author, description, borrowed, borrowed_by} = this.state.item
+        console.log(name, type, author, description, borrowed, borrowed_by)
+        const card = <li className={borrowed ? "borrowed" : null} onClick={this.clickCard}>
+            {generateIcon(type)}
+            <p className="item-name">
+                {name}
+            </p>
+            {type === "Book" && <p className="author">
+                Author: {author}</p>}
+            {borrowed && <p className="borrowed-by">
+                Being borrowed by: {borrowed_by}
+            </p>}
+        </li>
+        const showHideClassName = clicked ? "display-block" : "display-none";
+        const largeCard = <div className={showHideClassName}>
+            <section className="clicked">
+                {largeCardShowing &&
+                    <>
+                        <i className="fas fa-pencil-alt" onClick={this.showEditCard}></i>
+                        <p className="large-name">{name}</p>
+                        <p className="large-type">{type}</p>
+                        {type === "Book" && <p className="large-author">Author: {author}</p>}
+                        <p className="large-description">{description}</p>
+                        {!borrowed && <p className="large-being-borrowed">
+                            This item is not currently being borrowed</p>}
+                        {borrowed && <p className="large-being-borrowed">
+                            This item is being borrowed by {borrowed_by}
                         </p>}
-                    </li>
-        const showHideClassName = this.state.clicked ? "display-block" : "display-none";
-        const largeCard =   <div className={showHideClassName}>
-                                <section className="clicked">
-                                    {this.state.largeCardShowing &&
-                                    <>
-                                    <i className="fas fa-pencil-alt" onClick={this.showEditCard}></i>
-                                    <p className="large-name">{item.name}</p>
-                                    <p className="large-type">{item.type}</p>
-                                    {item.type === "Book" && <p className="large-author">Author: {item.author}</p>}
-                                    <p className="large-description">{item.description}</p>
-                                    {!item.borrowed && <p className="large-being-borrowed">
-                                        This item is not currently being borrowed</p>}
-                                    {item.borrowed && <p className="large-being-borrowed">
-                                        This item is being borrowed by {item.borrowed_by}
-                                    </p>}
-                                    <button className="mark-as-borrowed-btn">Mark as Borrowed</button>
-                                    </>
-                                    }
-                                </section>
-                                <div className="complete-overlay" onClick={this.unClick}>
-                                </div>
+                        {!borrowed && <button className="mark-as-borrowed-btn" onClick={this.markAsBorrowed}>Mark as Borrowed</button>}
+                        {borrowed && <button className="mark-as-borrowed-btn" onClick={this.markAsReturned}>Mark as Returned</button>}
+                    </>
+                }
+                {editCardShowing &&
+                    <>
+                        <button type="button" className="edit-back" onClick={this.showLargeCard}>
+                            <i className="fas fa-arrow-left"></i>
+                        </button>
+                        <form className="edit-item-form" onSubmit={e => this.handleSubmit(e)}>
+                            <h2>Edit Item</h2>
+                            <label htmlFor="edit-name">Name:</label>
+                            <br />
+                            <input type="text" className="edit-name-input" name="edit-name" id="name" value={name} onChange={e => this.changeText(e)}/>
+                            <br />
+                            <label htmlFor="type">Type of item:  </label>
+                            <select name="type" className="edit-type" id="type" onChange={e => this.changeText(e)}>
+                                <option value={type}>{type}</option>
+                                <option value={type}>Household</option>
+                                <option value={type}>Electronics</option>
+                                <option value={type}>Book</option>
+                                <option value={type}>Garden</option>
+                                <option value={type}>Tools</option>
+                            </select>
+                            <br />
+                            {type === "Book" && <>
+                                <label htmlFor="author">Author:</label>
+                                <br />
+                                <input type="author" name="author" id="author" value={author} onChange={e => this.changeText(e)} />
+                            </>}
+                            <br />
+                            {borrowed && <>
+                                <label htmlFor="edit-whos-borrowing">Being borrowed by: </label>
+                                <br />
+                                <input type="text" className="edit-borrowed-by" name="edit-whos-borrowing" id="borrowed_by" value={borrowed_by} onChange={e => this.changeText(e)}/>
+                                <br />
+                            </>}
+                            <label htmlFor="description">Description:</label>
+                            <br />
+                            <textarea rows="4" cols="50" className="edit-description" name="description" id="description" value={description} onChange={e => this.changeText(e)}/>
+                            <br />
+                            <div className="signup-button-wrapper">
+                                <button type="submit" className="save-edit-button">
+                                    Save
+                                </button>
                             </div>
+                        </form>
+                    </>
+                }
+            </section>
+            <div className="complete-overlay" onClick={this.unClick}>
+            </div>
+        </div>
         return (
             <>
                 {card}
