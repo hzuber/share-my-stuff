@@ -28,15 +28,18 @@ function generateIcon(type) {
 class ItemCard extends Component {
     constructor(props) {
         super(props)
-        const item = this.props
-        const {name, type, author, description, borrowed, borrowed_by} = this.props.item
         this.state = {
             clicked: false,
             largeCardShowing: false,
             editCardShowing: false,
-            item : {name, type, author, description, borrowed, borrowed_by}
+            item: props.item,
+            name: props.name,
+            type: props.type,
+            author: props.author,
+            description: props.description,
+            borrowed: props.borrowed,
+            borrowed_by: props.borrowed_by,
         }
-        console.log(item, this.state.item)
     }
 
     handleSubmit = (e) => {
@@ -81,8 +84,8 @@ class ItemCard extends Component {
     changeText = (e) => {
         const key = e.target.id
         const val = e.target.value
-        this.setState.item({
-            [key]: val
+        this.setState({
+             [key]: val 
         })
     }
 
@@ -101,11 +104,9 @@ class ItemCard extends Component {
     }
 
     render() {
-        const { clicked, editCardShowing, largeCardShowing } = this.state;
-        const {name, type, author, description, borrowed, borrowed_by} = this.state.item
-        console.log(name, type, author, description, borrowed, borrowed_by)
+        const { clicked, editCardShowing, largeCardShowing, name, type, author, description, borrowed, borrowed_by} = this.state
         const card = <li className={borrowed ? "borrowed" : null} onClick={this.clickCard}>
-            {generateIcon(type)}
+            {type && generateIcon(type)}
             <p className="item-name">
                 {name}
             </p>
@@ -143,11 +144,10 @@ class ItemCard extends Component {
                             <h2>Edit Item</h2>
                             <label htmlFor="edit-name">Name:</label>
                             <br />
-                            <input type="text" className="edit-name-input" name="edit-name" id="name" value={name} onChange={e => this.changeText(e)}/>
+                            <input type="text" className="edit-name-input" name="edit-name" id="name" value={name} onChange={(e) => this.changeText(e)}/>
                             <br />
                             <label htmlFor="type">Type of item:  </label>
                             <select name="type" className="edit-type" id="type" onChange={e => this.changeText(e)}>
-                                <option value={type}>{type}</option>
                                 <option value={type}>Household</option>
                                 <option value={type}>Electronics</option>
                                 <option value={type}>Book</option>

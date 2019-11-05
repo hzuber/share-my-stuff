@@ -8,36 +8,31 @@ export default class UserPage extends Component {
         super(props);
         this.state = {
             items: itemsStore,
-            filter: "no-filter"
+            itemList: itemsStore
         }
     }
 
     handleChange = (e) => {
         this.setState({
-            filter: e.target.value
+            itemList: this.filterItems(e.target.value)
         })
-        console.log(this.state)
     }
-
-    filterByType(){
-        console.log(this.state)
-        const {filter, items} = this.state
-        const filteredItems = items.filter(item => item.type === filter)
-        return filteredItems;
-    }
-
-    filterByBorrowed(){
-        console.log(this.state)
-        const {filter, items} = this.state
-        const filteredItems = filter === "borrowed" ? items.filter(item => item.borrowed === true) : items.filter(item => item.borrowed === false)
-        return filteredItems
+ 
+    filterItems = (choice) => {
+        const {items} = this.state
+        if(choice === "no-filter") {
+            return items
+        } else if(choice === "borrowed"){
+            return items.filter(item => item.borrowed === true)
+        } else if(choice === "not-borrowed"){
+            return items.filter(item => item.borrowed === false)
+        }else {
+            return items.filter(item => (item.type || item.borrowed) === choice)
+        }
     }
 
     render() {
-        const { filter, items } = this.state
-        const filteredItems = filter === "no-filter" ? items : filter === "not-borrowed" || filter === "borrowed" ? this.filterByBorrowed() : this.filterByType();
-        const itemList = filteredItems.map(item => 
-                                                <ItemCard item={item} /> )
+        const { itemList} = this.state
         const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
         const typeOptions = itemTypes.map(type => <option key={type} value={type} className="sort-options">{type}</option>)
         return (
@@ -67,7 +62,9 @@ export default class UserPage extends Component {
                     </li>
                 </ul>
                 <ul className="items-container">
-                    {itemList}
+                    {itemList.map((item,i) => {
+                        return(<ItemCard key={i} {...item} />)
+                    })}
                 </ul>
             </div>
         )
