@@ -39,6 +39,16 @@ class ItemCard extends Component {
             description: props.description,
             borrowed: props.borrowed,
             borrowed_by: props.borrowed_by,
+            id: props.id
+        }
+    }
+
+    componentDidUpdate(prevProps){
+        const {item, name, type, author, description, borrowed, borrowed_by, id} = this.state
+        if (this.props.id !== prevProps.id){
+            this.setState({
+                item, name, type, author, description, borrowed, borrowed_by, id
+            })
         }
     }
 
@@ -91,7 +101,7 @@ class ItemCard extends Component {
 
     markAsBorrowed = (e) => {
         this.setState({
-            item:{borrowed: true},
+            borrowed: true,
             largeCardShowing: false,
             editCardShowing: true
         })
@@ -99,7 +109,7 @@ class ItemCard extends Component {
 
     markAsReturned = (e) => {
         this.setState({
-            item:{borrowed: false}
+            borrowed: false
         })
     }
 

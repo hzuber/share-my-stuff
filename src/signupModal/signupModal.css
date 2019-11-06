@@ -33,7 +33,7 @@
     border: none;
   }
   .signup-close:hover{
-    color: white;
+    color: lightgray;
     cursor: pointer;
   }
   .signup-modal {
