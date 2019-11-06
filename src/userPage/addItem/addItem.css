@@ -83,6 +83,7 @@
 .add-item-btn-wrapper{
     width: 100%;
     display: flex;
+    justify-content: center;
 }
 .save-add-button{
     border-radius: 5px;
