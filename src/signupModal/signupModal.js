@@ -11,10 +11,6 @@ const SignUpModal = ({ handleClose, show }) => {
                 <button type="button" className="signup-close" onClick={handleClose}>X</button>
                 <form className="signup-modal-form">
                     <h2>Create A New Account</h2>
-                    <label for="username">Choose a Username:</label>
-                    <br />
-                    <input type="text" name="username" id="username"/>
-                    <br />
                     <label for="fullname">Full Name:</label>
                     <br />
                     <input type="text"name="fullname" id="fullname"/>
