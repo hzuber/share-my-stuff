@@ -42,14 +42,18 @@
     background: grey;
     overflow: auto;
   }
-  .fa-pencil-alt{
+  .large-card-top-btns{
+    display: flex;
     float: right;
+  }
+  .large-card-top-btns > i{
     padding: 5px;
+    margin: 0px 2px;
   }
-  .fa-pencil-alt:hover{
-      color: lightgray;
-      cursor: pointer;
-  }
+  .large-card-top-btns > i:hover{
+    color: lightgray;
+    cursor: pointer;
+}
   .clicked p{
     display: block;
   }
@@ -72,6 +76,23 @@
   .large-being-borrowed{
     font-size: 14px;
     padding: 10px;
+  }
+  .borrow-input-wrapper{
+      display: flex;
+  }
+  .borrowed-by-input{
+      margin: 10px;
+  }
+  .confirm-borrower{
+      background: grey;
+      border: none;
+  }
+  .confirm-borrower:hover{
+      color: lightgray;
+      cursor: pointer;
+  }
+  .fa-check-circle{
+      font-size: 24px;
   }
   .mark-as-borrowed-btn{
     border-radius: 5px;

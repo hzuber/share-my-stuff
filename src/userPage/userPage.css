@@ -21,6 +21,7 @@ body{
     background-color: lightgrey;
     font-size: 20px;
     align-items: flex-end;
+    width: 100%;
   }
   .items-bar li{
     padding: 10px;

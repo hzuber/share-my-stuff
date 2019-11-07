@@ -10,26 +10,33 @@ export default class UserPage extends Component {
         this.state = {
             items: itemsStore,
             itemList: itemsStore,
-            addItemShowing: false
+            addItemShowing: false,
+            filter: "no-filter"
         }
     }
 
     handleChange = (e) => {
         this.setState({
-            itemList: this.filterItems(e.target.value)
+            filter: (e.target.value)
+        }, this.runFilter)
+    }
+
+    runFilter =() => {
+        this.setState({
+            itemList: this.filterItems()
         })
     }
 
-    filterItems = (choice) => {
-        const { items } = this.state
-        if (choice === "no-filter") {
+    filterItems = () => {
+        const { items, filter } = this.state
+        if (filter === "no-filter") {
             return items
-        } else if (choice === "borrowed") {
+        } else if (filter === "borrowed") {
             return items.filter(item => item.borrowed === true)
-        } else if (choice === "not-borrowed") {
+        } else if (filter === "not-borrowed") {
             return items.filter(item => item.borrowed === false)
         } else {
-            return items.filter(item => (item.type || item.borrowed) === choice)
+            return items.filter(item => item.type === filter)
         }
     }
 
@@ -47,15 +54,25 @@ export default class UserPage extends Component {
     }
 
     handleAddItem = (item) => {
-        const {itemList} = this.state;
-        const newId = itemList.length + 1;
+        console.log(item)
+        const {items} = this.state;
+        const newId = items.length + 1;
         const newItem = {...item, id:newId};
-        const newItemList = [...itemList, newItem];
         this.setState({
-            itemList: newItemList,
-        })
-        console.log("new items are ", this.state.items)
-        console.log("new itemList is ", this.state.itemList)
+            items: [...items, newItem],
+            },
+            this.runFilter
+        )
+    }
+
+    handleDeleteCard = (id) => {
+        const {items} = this.state;
+        const newList = items.filter(item => item.id !== id)
+        this.setState({
+            items: newList,
+            },
+            this.runFilter
+        )
     }
 
     render() {
@@ -94,7 +111,7 @@ export default class UserPage extends Component {
                 {addItem}
                 <ul className="items-container">
                     {itemList.map(item => {
-                        return (<ItemCard key={item.id} {...item} />)
+                        return (<ItemCard key={item.id} {...item} deleteCard={this.handleDeleteCard}/>)
                     })}
                 </ul>
             </div>
