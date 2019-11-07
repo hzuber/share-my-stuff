@@ -42,7 +42,9 @@ export default class AddItem extends Component {
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since } =this.state;
         const date = moment(borrowed_since, ["DD/MM/YYYY", moment.ISO_8601])
         console.log(date)
-        const newItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since: date }
+        const validateDate = !date.isValid() ? moment() : date
+        console.log(validateDate)
+        const newItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since: validateDate }
         console.log(newItem)
         this.props.pushItem(newItem);
         this.setState({
@@ -75,6 +77,7 @@ export default class AddItem extends Component {
                         <option value="Book">Book</option>
                         <option value="Garden">Garden</option>
                         <option value="Tools">Tools</option>
+                        <option value="Toys">Toys</option>
                     </select>
                     <br />
                     {type === "Book" && <div className="add-item-author-div">
@@ -95,7 +98,7 @@ export default class AddItem extends Component {
                         <br />
                         <label htmlFor="borrowed_from_when">Borrowed since: </label>
                         <br />
-                        <input type="datetime-local" step="1" className="borrowed_from_when" name="borrowed_from_when" id="borrowed_since" value={borrowed_since} onChange={e => this.changeState(e)} />
+                        <input type="text" className="borrowed_from_when" name="borrowed_from_when" id="borrowed_since" placeholder="DD/MM/YYYY" value={borrowed_since} onChange={e => this.changeState(e)} />
                         <br />
                     </>}
                     <label htmlFor="description">Description:</label>

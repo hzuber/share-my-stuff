@@ -20,6 +20,9 @@ function generateIcon(type) {
         case "garden":
             icon = "leaf"
             break;
+        case "toys":
+            icon = "puzzle-piece"
+            break;
         default:
             break;
     }
@@ -44,7 +47,6 @@ class ItemCard extends Component {
             borrowed_since: props.borrowed_since,
             id: props.id
         }
-        console.log(this.state)
     }
 
     componentDidUpdate(prevProps){
