@@ -15,38 +15,6 @@ body{
     margin: 10px;
     padding:10px;
   }
-  .items-bar{
-    display: flex;
-    list-style-type: none;
-    background-color: lightgrey;
-    font-size: 20px;
-    align-items: flex-end;
-    width: 100%;
-  }
-  .items-bar li{
-    padding: 10px;
-    margin-right: 50px;
-    align-self: center;
-  }
-  .sort{
-    font-size: 16px;
-  }
-  .sort-by-type{
-      font-size: 16px;
-      padding: 5px;
-      margin-left: 5px;
-      border: none;
-  }
-  .sort-by-type:hover{
-    cursor: pointer;
-  }
-  .add-item{
-    font-size: 16px;
-  }
-  .add-item:hover{
-    cursor: pointer;
-    color: rgb(245, 244, 244);;
-  }
   .my-items{
     font-size:24px;
     font-weight: bolder;

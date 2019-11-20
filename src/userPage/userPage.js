@@ -1,59 +1,27 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import './userPage.css';
-import itemsStore from './itemsStore';
-import ItemCard from './itemCard/itemCard';
-import AddItem from './addItem/addItem'
+import config from '../config'
+import ShareContext from '../shareContext';
+import ItemCard from '../itemCard/itemCard';
+import UserSearchBar from '../userSearchBar/userSearchBar';
 
 export default class UserPage extends Component {
-    constructor(props) {
-        super(props);
+    constructor(props){
+        super(props)
         this.state = {
-            items: itemsStore,
-            itemList: itemsStore,
-            addItemShowing: false,
-            filter: "no-filter"
+            user: {},
+            items: [],
         }
     }
-
-    handleChange = (e) => {
-        this.setState({
-            filter: (e.target.value)
-        }, this.runFilter)
-    }
-
-    runFilter =() => {
-        this.setState({
-            itemList: this.filterItems()
-        })
-    }
-
-    filterItems = () => {
-        const { items, filter } = this.state
-        if (filter === "no-filter") {
-            return items
-        } else if (filter === "borrowed") {
-            return items.filter(item => item.borrowed === true)
-        } else if (filter === "not-borrowed") {
-            return items.filter(item => item.borrowed === false)
-        } else {
-            return items.filter(item => item.type === filter)
+    static contextType = ShareContext;
+    static defaultProps = {
+        match: {
+            params: {}
         }
-    }
+    };
 
-    showAddItem = () => {
-        console.log("showAddItem clicked")
-        this.setState({
-            addItemShowing: true
-        })
-    }
-
-    hideAddItem = () => {
-        this.setState({
-            addItemShowing: false
-        })
-    }
-
-    handleAddItem = (item) => {
+    updateItems = (item) => {
         console.log(item)
         const {items} = this.state;
         const newId = items.length + 1;
@@ -65,53 +33,39 @@ export default class UserPage extends Component {
         )
     }
 
-    handleDeleteCard = (id) => {
-        const {items} = this.state;
-        const newList = items.filter(item => item.id !== id)
-        this.setState({
-            items: newList,
-            },
-            this.runFilter
-        )
+    componentDidMount(){
+        const userId = (this.props.match.params.user_id)
+        Promise.all([
+            fetch(`${config.API_BASE_URL}/api/users/${userId}`),
+            fetch(`${config.API_BASE_URL}/api/users/${userId}/items`)
+        ])
+        .then(([userRes, itemRes]) => {
+            if(!userRes.ok)
+                return userRes.json().then(e => Promise.reject(e));
+            if(!itemRes.ok)
+                return itemRes.json().then(e => Promise.reject(e))
+
+            return Promise.all([userRes.json(), itemRes.json()])
+        })
+        .then(([user, items]) => {
+            this.setState({ user, items })
+        })
+        .catch(error => this.context.setError({error}))
     }
 
     render() {
-        const { itemList, addItemShowing, } = this.state
-        const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
-        const typeOptions = itemTypes.map(type => <option key={type} value={type} className="sort-options">{type}</option>);
-        const showHideAddItem = addItemShowing ? "display-block" : "display-none";
-        const addItem = <div className={showHideAddItem}><AddItem pushItem={this.handleAddItem} close={this.hideAddItem}/><div className="complete-overlay" onClick={this.hideAddItem}>
-        </div></div>
+        const userId = (this.props.match.params.user_id)
+        const {  handleDeleteItem, } = this.context;
+        const { user, items } = this.state;
         return (
             <div className="userPage-container">
                 <h2 className="welcome-user">
-                    Welcome Hannah!
+                    Welcome {user.name}!
                 </h2>
-                <ul className="items-bar">
-                    <li className="my-items">
-                        My Items:
-                    </li>
-                    <li className="sort">
-                        Sort by:
-                        <select name="type" className="sort-by-type" id="type" onChange={this.handleChange}>
-                            <option value="no-filter">See all</option>
-                            <optgroup label="Status">
-                                <option value="not-borrowed">Not Borrowed</option>
-                                <option value="borrowed">Borrowed</option>
-                            </optgroup>
-                            <optgroup label="Sort By Type">
-                                {typeOptions}
-                            </optgroup>
-                        </select>
-                    </li>
-                    <li className="add-item" onClick={() => this.showAddItem()}>
-                        Add Item <i className="fas fa-plus"></i>
-                    </li>
-                </ul>
-                {addItem}
+                <UserSearchBar userId = {userId}/>
                 <ul className="items-container">
-                    {itemList.map(item => {
-                        return (<ItemCard key={item.id} {...item} deleteCard={this.handleDeleteCard}/>)
+                    {items.map(item => {
+                        return (<Link to={`/userPage/${userId}/${item.id}`} key={item.id}><ItemCard {...item} deleteCard={handleDeleteItem}/></Link>)
                     })}
                 </ul>
             </div>

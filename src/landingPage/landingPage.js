@@ -1,34 +1,19 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom'
 import './landingPage.css';
 import LoginModal from '../loginModal/LoginModal';
 import SignUpModal from '../signupModal/signupModal';
+import ShareContext from '../shareContext';
 
 export default class LandingPage extends Component {
-    state = {
-        showLogin: false,
-        showSignUp: false
-    };
-
-    showLoginFxn = () => {
-        this.setState({ showLogin: true })
-    };
-
-    hideLoginFxn = () => {
-        this.setState({ showLogin: false })
-    }
-
-    showSignUpFxn = () => {
-        this.setState({ showSignUp: true })
-    };
-
-    hideSignUpFxn = () => {
-        this.setState({ showSignUp: false })
-    }
+    static contextType = ShareContext;
+    
     render(){
+        const { showLogin, showSignUp, showLoginFxn, hideLoginFxn, showSignUpFxn, hideSignUpFxn } = this.context;
         return (
             <div className="landing-page-container">
-                <LoginModal show={this.state.showLogin} handleClose={this.hideLoginFxn}/>
-                <SignUpModal show={this.state.showSignUp} handleClose={this.hideSignUpFxn}/>
+                <LoginModal show={showLogin} handleClose={hideLoginFxn}/>
+                <SignUpModal show={showSignUp} handleClose={hideSignUpFxn}/>
                 <section className="landing-page-header">
                     <h1>SHARE MY STUFF</h1>
                 </section>
@@ -41,8 +26,12 @@ export default class LandingPage extends Component {
                         Let us make it easier for you to be generous.
                     </h3>
                     <div className="button-wrapper">
-                        <button type="button" className="log-in-btn" onClick={this.showLoginFxn}>Log In</button>
-                        <p className="sign-up-link" onClick={this.showSignUpFxn}>Sign Up</p>
+                        <Link to='/login'>
+                            <button type="button" className="log-in-btn" onClick={showLoginFxn}>Log In</button>
+                        </Link>
+                        <Link to="/signup">
+                            <p className="sign-up-link" onClick={showSignUpFxn}>Sign Up</p>
+                        </Link>
                     </div>
                 </section>
             </div>

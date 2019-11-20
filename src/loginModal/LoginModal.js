@@ -1,37 +1,79 @@
-import React from 'react'; 
-import { Link } from 'react-router-dom';
-import './LoginModal.css'
+import React, {Component} from 'react'; 
+import './LoginModal.css';
+import { withRouter } from 'react-router-dom'
+import ShareContext from '../shareContext';
+import ValidationError from '../validationError'
 
-const LoginModal = ({ handleClose, show }) => {
-    const showHideClassName = show ? "login-modal display-block" : "login-modal display-none";
+class LoginModal extends Component{
+    state = {
+        clicked: false
+    }
+    static contextType = ShareContext;
 
-    return (
-        <div className={showHideClassName}>
-            <section className="login-modal">
-                <button type="button" className="login-close" onClick={handleClose}>X</button>
-                <form className="login-modal-form">
-                    <h2>Log In</h2>
-                    <label for="username">Enter username or email address:</label>
-                    <br />
-                    <input type="text" name="username" id="username" />
-                    <br />
-                    <label for="password">Password:</label>
-                    <br />
-                    <input type="text" name="password" id="password" />
-                    <br />
-                    <p class="get-hint">Get password hint</p>
-                    <p class="get-hint">Reset password</p>
-                    <Link to = {`/userPage`}>
-                        <button type="submit" class="login-button">
+    handleVerification = (e) => {
+        e.preventDefault();
+        const {email, password} = e.target
+        this.setState({
+            clicked: true
+        })
+        this.userMatch(email.value, password.value)
+    }
+
+    userMatch(email, password){
+        const {users} = this.context;
+        const thisUser = users.find(user => user.email === email)
+        if (!thisUser || thisUser.password !== password){
+            return 'Some of the information entered is incorrect.'
+        } else {
+        this.handleSubmit(thisUser.id)
+        }
+    }
+
+    tryAgain = () => {
+        this.setState({
+            clicked: false
+        })
+    }
+
+    handleSubmit(id){
+        const {history} = this.props
+        console.log(this.props)
+        history.push(`/userPage/${id}`)
+    }
+
+    render(){
+        const { showLogin, hideLoginFxn } = this.context;
+        const {clicked} = this.state
+        const loginError = this.userMatch();
+        const showHideClassName = showLogin ? "login-modal display-block" : "login-modal display-none";
+
+        return (
+            <div className={showHideClassName}>
+                <section className="login-modal">
+                    <button type="button" className="login-close" onClick={hideLoginFxn}>X</button>
+                    <form className="login-modal-form" onSubmit={ this.handleVerification}>
+                        <h2>Log In</h2>
+                        <label htmlFor="email">Enter email address:</label>
+                        <br />
+                        <input type="text" name="email" id="email" onChange={e => this.tryAgain(e)}/>
+                        <br />
+                        <label htmlFor="password">Password:</label>
+                        <br />
+                        <input type="text" name="password" id="password" onChange={e => this.tryAgain(e)} />
+                        <br />
+                        <p className="get-hint">Get password hint</p>
+                        <p className="get-hint">Reset password</p>
+                        <button type="submit" className="login-button">
                             Login
                         </button>
-                    </Link>
-                </form>
-            </section>   
-            <div className="complete-overlay" onClick={handleClose}>
+                        {clicked && <ValidationError message = {loginError} />}
+                    </form>
+                </section>   
+                <div className="complete-overlay" onClick={hideLoginFxn}>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
-export default LoginModal;
+export default withRouter(LoginModal)
