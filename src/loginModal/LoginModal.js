@@ -1,14 +1,14 @@
 import React, {Component} from 'react'; 
 import './LoginModal.css';
 import { withRouter } from 'react-router-dom'
-import ShareContext from '../shareContext';
+import ShareContextMain from '../shareContextMain';
 import ValidationError from '../validationError'
 
 class LoginModal extends Component{
     state = {
         clicked: false
     }
-    static contextType = ShareContext;
+    static contextType = ShareContextMain;
 
     handleVerification = (e) => {
         e.preventDefault();

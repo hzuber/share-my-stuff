@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom'
 import './addItem.css';
 import moment from 'moment';
-import ShareContext from '../shareContext';
+import ShareContextUserPage from '../shareContextUserPage';
 import config from '../config'
 
 class AddItem extends Component {
@@ -18,7 +18,7 @@ class AddItem extends Component {
             borrowed_since: ""
         }
     }
-    static contextType = ShareContext;
+    static contextType = ShareContextUserPage;
     static defaultProps = {
         match: {
             params: {}
@@ -46,13 +46,13 @@ class AddItem extends Component {
         }
     }
 
+
     handleSubmit=(e)=>{
         e.preventDefault()
         const userId = this.props.match.params.user_id;
-        console.log(userId)
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since } = this.state;
-        const date = borrowed_since === "" ? null : moment(borrowed_since,"DD/MM/YYYY").toString()
-        const validateDate = !date ? null : !date.isValid() ? moment().format('DD/MM/YYYY').toString() : date
+        const date = borrowed_since === "" ? null : moment(borrowed_since,"DD/MM/YYYY")
+        const validateDate = !date ? null : !date.isValid() ? moment().format('DD/MM/YYYY') : date
         const newItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since: validateDate, owned_by: userId }
         console.log(newItem)
 
@@ -69,10 +69,10 @@ class AddItem extends Component {
                     throw error
                 })
             }
-            return res.json
+            return res.json()
         })
         .then(data => {
-            this.props.updateItems(data)
+            console.log(data)
             this.setState({
                 name: "",
                 type: "",
@@ -82,7 +82,10 @@ class AddItem extends Component {
                 borrowed_by: "",
                 borrowed_since: ""
             })
+            this.props.history.push(`/userPage/${userId}`);
+            this.context.updateItems(data);
         })
+        .catch(error => this.context.setError({error}))
     }
 
     render() {
@@ -97,7 +100,7 @@ class AddItem extends Component {
                         <h2>Add Item</h2>
                         <label htmlFor="add-name">Name:</label>
                         <br />
-                        <input type="text" className="add-name-input" name="add-name" id="name" value={name} onChange={(e) => this.changeState(e)} />
+                        <input autoFocus type="text" className="add-name-input" name="add-name" id="name" value={name} onChange={(e) => this.changeState(e)} />
                         <br />
                         <label htmlFor="type">Type of item:  </label>
                         <select name="type" className="add-type" id="type" value={this.state.type} onChange={e => this.changeState(e)}>
@@ -136,7 +139,7 @@ class AddItem extends Component {
                         <textarea rows="4" cols="50" className="add-description" name="description" id="description" value={description} onChange={e => this.changeState(e)} />
                         <br />
                         <div className="add-item-btn-wrapper">
-                            <button type="submit" className="save-add-button" id="save-and-close" onClick={this.props.close}>
+                            <button type="submit" className="save-add-button" id="save-and-close">
                                 Save
                             </button>
                             <button type="submit" className="save-add-button" id="save-and-add-another">

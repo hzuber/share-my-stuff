@@ -36,3 +36,12 @@ font-size: 16px;
 cursor: pointer;
 color: rgb(245, 244, 244);;
 }
+
+select {
+    border:none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}

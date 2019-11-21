@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShareContext = React.createContext({
+const ShareContextMain = React.createContext({
     users: [],
     items: [],
     error: null,
@@ -12,12 +12,6 @@ const ShareContext = React.createContext({
     hideLoginFxn: () => {},
     showSignUpFxn: () => {},
     hideSignUpFxn: () => {},
-    filter: "no-filter",
-    addItemShowing: () => {},
-    showAddItem : () => {},
-    hideAddItem: () => {},
-    handleFilterChange: () => {},
-    runFilter:() => {}
 })
 
-export default ShareContext;
+export default ShareContextMain;

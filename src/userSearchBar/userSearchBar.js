@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import './userSearchBar.css';
-import ShareContext from '../shareContext';
+import ShareContextUserPage from '../shareContextUserPage';
 import {Link} from 'react-router-dom';
 
 class UserSearchBar extends Component{
-    static contextType = ShareContext;
+    static contextType = ShareContextUserPage;
     static defaultProps = {
         match: {
             params: {}
         }
     };
     render(){
-        const userId = this.props.userId
+        const { user } = this.context;
         const { handleFilterChange, showAddItem } = this.context
         const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
         const typeOptions = itemTypes.map(type => <option key={type} value={type} className="sort-options">{type}</option>);
@@ -33,8 +33,8 @@ class UserSearchBar extends Component{
                         </optgroup>
                     </select>
                 </li>
-                <Link to={`/userPage/${userId}/addItem`}>
-                    <li className="add-item" onClick={() => showAddItem()}>
+                <Link to={`/userPage/${user.id}/addItem`}>
+                    <li className="add-item" onClick={showAddItem}>
                         Add Item <i className="fas fa-plus"></i>
                     </li>
                 </Link>

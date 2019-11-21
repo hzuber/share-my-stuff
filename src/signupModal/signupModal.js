@@ -1,5 +1,5 @@
 import React, {Component} from 'react'; 
-import ShareContext from '../shareContext';
+import ShareContextMain from '../shareContextMain';
 import { withRouter } from 'react-router-dom'
 import config from '../config'
 import ValidationError from '../validationError'
@@ -18,7 +18,7 @@ class SignUpModal extends Component{
             hint: ''
         }
     }
-    static contextType = ShareContext;
+    static contextType = ShareContextMain;
 
     updateText = (e) => {
         const key = e.target.id;

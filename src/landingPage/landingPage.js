@@ -3,10 +3,10 @@ import {Link} from 'react-router-dom'
 import './landingPage.css';
 import LoginModal from '../loginModal/LoginModal';
 import SignUpModal from '../signupModal/signupModal';
-import ShareContext from '../shareContext';
+import ShareContextMain from '../shareContextMain';
 
 export default class LandingPage extends Component {
-    static contextType = ShareContext;
+    static contextType = ShareContextMain;
     
     render(){
         const { showLogin, showSignUp, showLoginFxn, hideLoginFxn, showSignUpFxn, hideSignUpFxn } = this.context;
