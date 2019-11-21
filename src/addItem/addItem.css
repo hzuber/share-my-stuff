@@ -6,7 +6,8 @@
         margin-right: 0px !important;
         margin-left: 0px
     }
-  }.complete-overlay{
+  }
+.complete-overlay{
     z-index: 1;
     position: fixed;
     height: 100vh;

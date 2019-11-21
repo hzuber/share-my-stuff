@@ -16,7 +16,10 @@ export default class UserPage extends Component {
             user: {},
             items: [],
             itemList: [],
+            showTypeList: false,
             addItemShowing: false,
+            addBookShowing: false,
+            typeToAdd: '',
             filter: 'no-filter',
             cardClicked: false,
             largeCardShowing: false,
@@ -57,6 +60,35 @@ export default class UserPage extends Component {
         addItemShowing: false
       })
       this.props.history.goBack()
+    }
+
+    showAddBook = () => {
+        this.setState({
+          addBookShowing: true
+        })
+    }
+    
+    hideAddBook = () => {
+        this.setState({
+          addBookShowing: false
+        })
+        this.props.history.goBack()
+    }
+
+    setTypeToAdd = (type) =>{
+        this.setState({
+            showTypeList: false,
+            addItemShowing: true,
+            typeToAdd: type
+        })
+    }
+
+    showTypeListFxn=()=>{
+        this.setState({showTypeList: true})
+    }
+
+    hideTypeListFxn=()=>{
+        this.setState({showTypeList: false})
     }
   
     handleDeleteItem = (id) => {
@@ -128,7 +160,6 @@ export default class UserPage extends Component {
     }  
 
     componentDidMount(){
-        console.log("userPage mounted, state is ", this.state)
         const userId = (this.props.match.params.user_id)
         Promise.all([
             fetch(`${config.API_BASE_URL}/api/users/${userId}`),
@@ -152,8 +183,11 @@ export default class UserPage extends Component {
         const contextValue = {
             user: this.state.user,
             items: this.state.itemList,
+            typeToAdd: this.state.typeToAdd,
+            showTypeList: this.state.showTypeList,
             error: this.state.error,
             addItemShowing: this.state.addItemShowing,
+            addBookShowing: this.state.addBookShowing,
             filter: this.state.filter,
             clicked: this.state.cardClicked,
             largeCardShowing: this.state.largeCardShowing,
@@ -162,8 +196,13 @@ export default class UserPage extends Component {
             updateItems: this.updateItems,
             hideAddItem: this.hideAddItem,
             showAddItem: this.showAddItem,
+            showAddBook: this.showAddBook,
+            hideAddBook: this.hideAddBook,
             handleAddToItems: this.handleAddtoItems,
             handleDeleteItem: this.handleDeleteItem,
+            setTypeToAdd: this.setTypeToAdd,
+            showTypeListFxn: this.showTypeListFxn,
+            hideTypeListFxn: this.hideTypeListFxn,
             handleFilterChange: this.handleFilterChange,
             clickCard: this.clickCard,
             unClick: this.unClick,

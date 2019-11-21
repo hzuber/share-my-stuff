@@ -46,7 +46,6 @@ class AddItem extends Component {
         }
     }
 
-
     handleSubmit=(e)=>{
         e.preventDefault()
         const userId = this.props.match.params.user_id;
@@ -90,7 +89,10 @@ class AddItem extends Component {
 
     render() {
         const {name, type, author, description, borrowed, borrowed_by, borrowed_since} = this.state;
-        const { addItemShowing, hideAddItem } = this.context
+        const { addItemShowing, hideAddItem, typeToAdd } = this.context;
+        const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
+        const otherItems = itemTypes.filter(item => item !== this.context.typeToAdd)
+        const typeOptions = otherItems.map(type => <option key={type} value={type}>{type}</option>);
         const showHideAddItem = addItemShowing ? "display-block" : "display-none";
         return (
             <div className={showHideAddItem}>
@@ -104,13 +106,8 @@ class AddItem extends Component {
                         <br />
                         <label htmlFor="type">Type of item:  </label>
                         <select name="type" className="add-type" id="type" value={this.state.type} onChange={e => this.changeState(e)}>
-                            <option value="">Choose a type</option>
-                            <option value="Household">Household</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Book">Book</option>
-                            <option value="Garden">Garden</option>
-                            <option value="Tools">Tools</option>
-                            <option value="Toys">Toys</option>
+                            <option value="">{typeToAdd}</option>
+                            {typeOptions}
                         </select>
                         <br />
                         {type === "Book" && <div className="add-item-author-div">

@@ -145,7 +145,6 @@ export default class LargeItemCard extends Component{
     render(){
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since, borrowed_input } = this.state
         const { clicked, largeCardShowing, editCardShowing, showEditCard } = this.context;
-        console.log("card clicked here? ", clicked)
         const theDate = moment(borrowed_since).format("DD/MM/YYYY")
         const showHideClassName = clicked ? "display-block" : "display-none";
         return (
