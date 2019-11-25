@@ -92,7 +92,9 @@ class App extends Component {
       showSignUp: this.state.showSignUp,
       newUserSignUp: this.newUserSignUp,
       hideSignUpFxn: this.hideSignUpFxn,
-      hideLoginFxn: this.hideLoginFxn
+      hideLoginFxn: this.hideLoginFxn,
+      showLoginFxn: this.showLoginFxn,
+      showSignUpFxn: this.showSignUpFxn
     }
 
     return (
