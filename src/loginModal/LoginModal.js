@@ -62,7 +62,7 @@ class LoginModal extends Component{
                         <br />
                         <label htmlFor="password">Password:</label>
                         <br />
-                        <input type="text" name="password" id="password" onChange={e => this.tryAgain(e)} />
+                        <input type="password" name="password" id="password" onChange={e => this.tryAgain(e)} />
                         <br />
                         <p className="get-hint">Get password hint</p>
                         <p className="get-hint">Reset password</p>

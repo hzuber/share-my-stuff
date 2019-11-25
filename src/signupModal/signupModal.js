@@ -141,13 +141,13 @@ class SignUpModal extends Component{
                         <br />
                         <label htmlFor="password">Password:</label>
                         <br />
-                        <input type="text" name="password" id="password" value={password.value} onChange={e => this.updateTextWithTouch(e)}/>
+                        <input type="password" name="password" id="password" value={password.value} onChange={e => this.updateTextWithTouch(e)}/>
                         <br />
                         {password.touched && <ValidationError message = {passwordError}/>}
                         <br />
                         <label htmlFor="confirm">Confirm password:</label>
                         <br />
-                        <input type="text" name="confirm" id="confirm" value={confirm.value} onChange={e => this.updateTextWithTouch(e)}/>
+                        <input type="password" name="confirm" id="confirm" value={confirm.value} onChange={e => this.updateTextWithTouch(e)}/>
                         <br />
                         {confirm.touched && <ValidationError message = {confirmError}/>}
                         <br />
