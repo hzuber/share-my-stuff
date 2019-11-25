@@ -20,7 +20,9 @@ const ShareContextUserPage = React.createContext({
     unClick: () => {},
     showLargeCard: () => {},
     showEditCard: () => {},
-    filterItems: () => {}
+    filterItems: () => {},
+    updateEditedItem: () => {},
+    
 })
 
 export default ShareContextUserPage

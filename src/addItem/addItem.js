@@ -25,6 +25,13 @@ class AddItem extends Component {
         },
         userId: 0
     };
+
+    componentDidMount(){
+        const type = this.context.typeToAdd
+        this.setState({
+            type
+        })
+    }
     
     changeState = (e) => {
         const key = e.target.id;
@@ -69,7 +76,7 @@ class AddItem extends Component {
             }
             return res.json()
         })
-        .then(data => {
+        .then((data) => {
             this.setState({
                 name: "",
                 type: "",
@@ -79,8 +86,10 @@ class AddItem extends Component {
                 borrowed_by: "",
                 borrowed_since: ""
             })
+            this.context.handleAddToItems(data);
+        })
+        .then(() => {
             this.props.history.push(`/userPage/${userId}`);
-            this.context.updateItems(data);
         })
         .catch(error => this.context.setError({error}))
     }
@@ -136,9 +145,6 @@ class AddItem extends Component {
                         <div className="add-item-btn-wrapper">
                             <button type="submit" className="save-add-button" id="save-and-close">
                                 Save
-                            </button>
-                            <button type="submit" className="save-add-button" id="save-and-add-another">
-                                Save And Add Another 
                             </button>
                         </div>
                     </form>

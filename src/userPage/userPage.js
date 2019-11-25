@@ -8,6 +8,7 @@ import ItemCard from '../itemCard/itemCard';
 import UserSearchBar from '../userSearchBar/userSearchBar';
 import AddItem from '../addItem/addItem';
 import LargeItemCard from '../largeItemCard/largeItemCard'
+import EditItem from '../editItemCard/editItemCard'
 
 export default class UserPage extends Component {
     constructor(props){
@@ -39,7 +40,7 @@ export default class UserPage extends Component {
       })
     }
 
-    updateItems = (item) => {
+    handleAddToItems = (item) => {
         const {items} = this.state;
         this.setState({
             items: [...items, item],
@@ -50,7 +51,8 @@ export default class UserPage extends Component {
 
     showAddItem = () => {
       this.setState({
-        addItemShowing: true
+        addItemShowing: true,
+        largeCardShowing: false
       })
     }
   
@@ -99,6 +101,15 @@ export default class UserPage extends Component {
         this.runFilter
       )
     }
+
+    updateEditedItem=(editedItem) => {
+      const newItems = this.state.items.map(item =>
+          item.id === editedItem.id ? editedItem : item)
+      this.setState({
+          items: newItems
+      }, 
+      this.runFilter)
+  }
   
     handleFilterChange = (e) => {
       this.setState({
@@ -193,8 +204,9 @@ export default class UserPage extends Component {
             showAddItem: this.showAddItem,
             showAddBook: this.showAddBook,
             hideAddBook: this.hideAddBook,
-            handleAddToItems: this.handleAddtoItems,
+            handleAddToItems: this.handleAddToItems,
             handleDeleteItem: this.handleDeleteItem,
+            updateEditedItem: this.updateEditedItem,
             setTypeToAdd: this.setTypeToAdd,
             showTypeListFxn: this.showTypeListFxn,
             hideTypeListFxn: this.hideTypeListFxn,
@@ -202,7 +214,7 @@ export default class UserPage extends Component {
             clickCard: this.clickCard,
             unClick: this.unClick,
             showLargeCard: this.showLargeCard,
-            showEditCard: this.state.showEditCard,
+            showEditCard: this.showEditCard,
             filterItems: this.filterItems
         }
         const { user, itemList } = this.state;
@@ -216,11 +228,12 @@ export default class UserPage extends Component {
                         <UserSearchBar/>
                         <ul className="items-container">
                             {itemList.map(item => {
-                                return (<Link to={`/userPage/${user.id}/${item.id}`} key={item.id} onClick = {this.clickCard}><ItemCard {...item} deleteCard={this.handleDeleteItem}/></Link>)
+                                return (<Link to={`/userPage/${user.id}/item/${item.id}`} key={item.id} onClick = {this.clickCard}><ItemCard {...item} deleteCard={this.handleDeleteItem}/></Link>)
                             })}
                         </ul>
-                        <Route exact path='/userPage/:user_id/:item_id' component={LargeItemCard} />
                         <Route exact path='/userPage/:user_id/addItem' component={AddItem} />
+                        <Route exact path='/userPage/:user_id/item/:item_id' component={LargeItemCard}/>
+                        <Route exact path='/userPage/:user_id/item/:item_id/editItem' component={EditItem} />
                     </ShareContextUserPage.Provider>
                 </BrowserRouter>
             </div>
