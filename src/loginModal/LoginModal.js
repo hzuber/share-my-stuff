@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import './LoginModal.css';
 import { withRouter } from 'react-router-dom'
 import ShareContextMain from '../shareContextMain';
-import ValidationError from '../validationError'
+import ValidationError from '../validationError';
+import TokenService from '../services/token-service'
 
 class LoginModal extends Component{
     state = {
         clicked: false
     }
     static contextType = ShareContextMain;
-
+    
     handleVerification = (e) => {
         e.preventDefault();
         const {email, password} = e.target
@@ -25,7 +26,7 @@ class LoginModal extends Component{
         if (!thisUser || thisUser.password !== password){
             return 'Some of the information entered is incorrect.'
         } else {
-        this.handleSubmit(thisUser.id)
+        this.handleSubmit(thisUser.id, email, password)
         }
     }
 
@@ -35,9 +36,11 @@ class LoginModal extends Component{
         })
     }
 
-    handleSubmit(id){
+    handleSubmit(id, email, password){
         const {history} = this.props
-        console.log(this.props)
+        TokenService.saveAuthToken(
+            TokenService.makeBasicAuthToken(email.value, password.value)
+        )
         history.push(`/userPage/${id}`)
     }
 

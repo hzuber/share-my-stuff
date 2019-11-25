@@ -13,7 +13,6 @@ import ShareError from './shareError'
 class App extends Component {
   state = {
     users: [],
-    items: [],
     showLogin: false,
     showSignUp: false,
     error: null,
@@ -32,6 +31,7 @@ class App extends Component {
   }
 
   showLoginFxn = () => {
+    console.log("show login")
     this.setState({ showLogin: true })
   };
 
@@ -50,33 +50,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Promise.all([
       fetch(`${config.API_BASE_URL}/api/users`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json'
         }
-      }),
-      fetch(`${config.API_BASE_URL}/api/items`, {
-        method: 'GET',
-        headers: {
-          'content-type': 'application/json'
-        }
       })
-    ])
-      .then(([userRes, itemRes]) => {
+      .then((userRes) => {
         if (!userRes.ok)
           return userRes.json().then(e => Promise.reject(e));
-        if (!itemRes.ok)
-          return itemRes.json().then(e => Promise.reject(e));
 
-        return Promise.all([userRes.json(), itemRes.json()])
+        return userRes.json()
       })
-      .then(([users, items]) => {
+      .then((users) => {
         this.setState({
-          users: users,
-          items: items,
-          itemList: items
+          users: users
         })
       })
       .catch(error => this.setState({ error }))
@@ -92,7 +80,9 @@ class App extends Component {
       showSignUp: this.state.showSignUp,
       newUserSignUp: this.newUserSignUp,
       hideSignUpFxn: this.hideSignUpFxn,
-      hideLoginFxn: this.hideLoginFxn
+      hideLoginFxn: this.hideLoginFxn,
+      showLoginFxn: this.showLoginFxn,
+      showSignUpFxn: this.showSignUpFxn
     }
 
     return (

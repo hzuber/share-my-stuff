@@ -82,7 +82,7 @@ export default class LargeItemCard extends Component{
 
     patchItem = () => {
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since, id } = this.state;
-        const editedItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since };
+        const editedItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since, id };
         const userId = this.props.match.params.user_id;
         console.log(editedItem)
 
@@ -113,10 +113,8 @@ export default class LargeItemCard extends Component{
             })
         })
         .then(() => {
-            this.props.history.push(`/userPage/${userId}`)
-        })
-        .then(() => {
-            window.location.reload(true)
+            this.props.history.push(`/userPage/${userId}`);
+            this.context.updateEditedItem(editedItem);
         })
         .catch(error => this.context.setError({error}))
     }

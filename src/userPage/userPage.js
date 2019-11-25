@@ -7,7 +7,8 @@ import ShareContextUserPage from '../shareContextUserPage';
 import ItemCard from '../itemCard/itemCard';
 import UserSearchBar from '../userSearchBar/userSearchBar';
 import AddItem from '../addItem/addItem';
-import LargeItemCard from '../largeItemCard/largeItemCard'
+import LargeItemCard from '../largeItemCard/largeItemCard';
+import TokenService from '../services/token-service';
 
 export default class UserPage extends Component {
     constructor(props){
@@ -40,13 +41,24 @@ export default class UserPage extends Component {
     }
 
     updateItems = (item) => {
-        console.log(item)
         const {items} = this.state;
         this.setState({
             items: [...items, item],
             },
             this.runFilter
         )
+    }
+
+    updateEditedItem=(editedItem) => {
+        console.log("update edited item ran, with item ", editedItem)
+        const itemId = Number(editedItem.id)
+        editedItem.id = itemId;
+        const newItems = this.state.items.map(item =>
+            item.id !== itemId ? item : editedItem)
+        this.setState({
+            items: newItems
+        }, 
+        this.runFilter)
     }
 
     showAddItem = () => {
@@ -148,6 +160,7 @@ export default class UserPage extends Component {
   
     filterItems = () => {
       const { items, filter } = this.state
+      console.log("filterItems ran", items)
       if (filter === "no-filter") {
         return items
       } else if (filter === "borrowed") {
@@ -161,9 +174,18 @@ export default class UserPage extends Component {
 
     componentDidMount(){
         const userId = (this.props.match.params.user_id)
+        console.log(userId)
         Promise.all([
-            fetch(`${config.API_BASE_URL}/api/users/${userId}`),
-            fetch(`${config.API_BASE_URL}/api/users/${userId}/items`)
+            fetch(`${config.API_BASE_URL}/api/users/${userId}`, {
+              headers: {
+                'authorization': `basic ${TokenService.getAuthToken()}`,
+              },
+            }),
+            fetch(`${config.API_BASE_URL}/api/users/${userId}/items`, {
+              headers: {
+                'authorization': `basic ${TokenService.getAuthToken()}`,
+              },
+            })
         ])
         .then(([userRes, itemRes]) => {
             if(!userRes.ok)
@@ -194,6 +216,7 @@ export default class UserPage extends Component {
             editCardShowing: this.state.editCardShowing,
             setError: this.setError,
             updateItems: this.updateItems,
+            updateEditedItem: this.updateEditedItem,
             hideAddItem: this.hideAddItem,
             showAddItem: this.showAddItem,
             showAddBook: this.showAddBook,
@@ -220,7 +243,7 @@ export default class UserPage extends Component {
                     <ShareContextUserPage.Provider value={contextValue}>
                         <UserSearchBar/>
                         <ul className="items-container">
-                            {itemList.map(item => {
+                            {itemList.map((item, i )=> {
                                 return (<Link to={`/userPage/${user.id}/${item.id}`} key={item.id} onClick = {this.clickCard}><ItemCard {...item} deleteCard={this.handleDeleteItem}/></Link>)
                             })}
                         </ul>
