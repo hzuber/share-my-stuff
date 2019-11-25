@@ -65,7 +65,6 @@ export default class LargeItemCard extends Component{
             borrowed_by: e.target.value,
             borrowed_since: moment()
         })
-        console.log(this.state)
     }
 
     markAsReturned = () => {
@@ -84,7 +83,6 @@ export default class LargeItemCard extends Component{
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since, id } = this.state;
         const editedItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since };
         const userId = this.props.match.params.user_id;
-        console.log(editedItem)
 
         fetch(`${config.API_BASE_URL}/api/items/${id}`, {
             method: 'PATCH',

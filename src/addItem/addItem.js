@@ -53,7 +53,6 @@ class AddItem extends Component {
         const date = borrowed_since === "" ? null : moment(borrowed_since,"DD/MM/YYYY")
         const validateDate = !date ? null : !date.isValid() ? moment().format('DD/MM/YYYY') : date
         const newItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since: validateDate, owned_by: userId }
-        console.log(newItem)
 
         fetch(`${config.API_BASE_URL}/api/items`, {
             method: 'POST',
@@ -71,7 +70,6 @@ class AddItem extends Component {
             return res.json()
         })
         .then(data => {
-            console.log(data)
             this.setState({
                 name: "",
                 type: "",

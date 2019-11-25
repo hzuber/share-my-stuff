@@ -40,7 +40,6 @@ export default class UserPage extends Component {
     }
 
     updateItems = (item) => {
-        console.log(item)
         const {items} = this.state;
         this.setState({
             items: [...items, item],
@@ -92,10 +91,8 @@ export default class UserPage extends Component {
     }
   
     handleDeleteItem = (id) => {
-        console.log("delete item id is ", id)
       const { items } = this.state;
       const newList = items.filter(item => Number(item.id) !== Number(id))
-      console.log("newList is ", newList)
       this.setState({
         items: newList,
       },
@@ -115,12 +112,11 @@ export default class UserPage extends Component {
       })
     }
   
-    clickCard = () => {console.log("clicked")
+    clickCard = () => {
       this.setState({
         cardClicked: true,
         largeCardShowing: true
       })
-      console.log("card is clicked? ", this.state.cardClicked)
     }
   
     unClick = () => {
@@ -136,7 +132,6 @@ export default class UserPage extends Component {
         largeCardShowing: true,
         editCardShowing: false
       })
-      console.log(this.state.largeCardShowing)
     }
   
     showEditCard = () => {
@@ -161,7 +156,6 @@ export default class UserPage extends Component {
 
     componentDidMount(){
         const userId = (this.props.match.params.user_id)
-        console.log("in userpage, userId is ", userId)
         Promise.all([
             fetch(`${config.API_BASE_URL}/api/users/${userId}`),
             fetch(`${config.API_BASE_URL}/api/users/${userId}/items`)

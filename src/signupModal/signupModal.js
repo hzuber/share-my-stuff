@@ -93,7 +93,6 @@ class SignUpModal extends Component{
             return res.json()
         })
         .then(data => {
-            console.log(data, "id is ", data.id)
             this.context.hideSignUpFxn()
             this.props.history.push(`/userPage/${data.id}`)
         })

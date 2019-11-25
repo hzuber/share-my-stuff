@@ -50,7 +50,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(config.API_BASE_URL)
     Promise.all([
       fetch(`${config.API_BASE_URL}/api/users`, {
         method: 'GET',
@@ -79,7 +78,6 @@ class App extends Component {
           items: items,
           itemList: items
         })
-        console.log(this.state)
       })
       .catch(error => this.setState({ error }))
   }
