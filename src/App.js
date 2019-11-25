@@ -50,6 +50,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log(config.API_BASE_URL)
     Promise.all([
       fetch(`${config.API_BASE_URL}/api/users`, {
         method: 'GET',
