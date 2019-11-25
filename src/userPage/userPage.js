@@ -161,6 +161,7 @@ export default class UserPage extends Component {
 
     componentDidMount(){
         const userId = (this.props.match.params.user_id)
+        console.log("in userpage, userId is ", userId)
         Promise.all([
             fetch(`${config.API_BASE_URL}/api/users/${userId}`),
             fetch(`${config.API_BASE_URL}/api/users/${userId}/items`)

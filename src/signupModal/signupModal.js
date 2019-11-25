@@ -90,24 +90,13 @@ class SignUpModal extends Component{
                     throw error
                 })
             }
-            return res.json
+            return res.json()
         })
         .then(data => {
+            console.log(data, "id is ", data.id)
             this.context.hideSignUpFxn()
-            this.context.newUserSignUp(data)
-            this.props.history.push('/user')
+            this.props.history.push(`/userPage/${data.id}`)
         })
-        .then(
-            fetch(`${config.API_BASE_URL}/api/users`, {
-                method: 'GET',
-                headers: {
-                  'content-type': 'application/json'
-                }
-              })
-              .then(res => {return res.json})
-              .then(users => {return users.find(user => user.email === email)})
-              .then(user => this.props.history.push(`/userPage/${user.id}`))
-        )
         .then(
             this.setState({
                 fullname: '', 
@@ -125,7 +114,8 @@ class SignUpModal extends Component{
     render(){
         const { showSignUp, hideSignUpFxn } = this.context;
         const { fullname, email, phone, password, confirm, hint } = this.state
-        const showHideClassName = showSignUp ? "signup-modal display-block" : "signup-modal display-none";
+        const {pathname} = this.props.location;
+        const showHideClassName = showSignUp && pathname === '/signup' ? "signup-modal display-block" : "signup-modal display-none";
         const passwordError = this.validatePassword();
         const confirmError = this.validateConfirm();
         const emailError = this.validateEmail();

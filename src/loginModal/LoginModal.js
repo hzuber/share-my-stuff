@@ -37,7 +37,6 @@ class LoginModal extends Component{
 
     handleSubmit(id){
         const {history} = this.props
-        console.log(this.props)
         history.push(`/userPage/${id}`)
     }
 
@@ -46,6 +45,10 @@ class LoginModal extends Component{
         const {clicked} = this.state
         const loginError = this.userMatch();
         const showHideClassName = showLogin ? "login-modal display-block" : "login-modal display-none";
+        const {pathname} = this.props.location;
+            if( pathname !== "/login" ) {
+                return null;
+            }
 
         return (
             <div className={showHideClassName}>

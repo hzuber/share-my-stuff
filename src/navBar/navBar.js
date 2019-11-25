@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 function NavBar(props) {
     const {pathname} = props.location;
-    if(pathname === "/") {
+    if(pathname === "/" || pathname=== "/signup" || pathname === "/login") {
         return null;
     }
     return (
