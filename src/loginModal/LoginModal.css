@@ -66,17 +66,6 @@
     padding: 5px;
     margin: 10px 0px;
   }
-  .get-hint{
-    font-size: 15px;
-    padding: 5px;
-    text-decoration: underline;
-    margin-top: -10px;
-  }
-  .get-hint:hover{
-    cursor: pointer;
-    transition: 0.3s;
-    color: lightgrey;
-  }
   .login-button{
     border-radius: 5px;
     margin: 10px 30%;

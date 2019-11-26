@@ -14,8 +14,7 @@ class SignUpModal extends Component{
             email: {touched:false, value: ''},
             phone: '',
             password: {touched:false, value: ''},
-            confirm: {touched:false, value: ''},
-            hint: ''
+            confirm: {touched:false, value: ''}
         }
     }
     static contextType = ShareContextMain;
@@ -71,11 +70,10 @@ class SignUpModal extends Component{
         e.preventDefault();
         const {setError} = this.context;
         const name = this.state.fullname;
-        const pw_hint = this.state.hint;
         const number = this.state.phone;
         const email = this.state.email.value;
         const password= this.state.password.value;
-        const newUser = { name, email, number, password, pw_hint }
+        const newUser = { name, email, number, password}
 
         fetch(`${config.API_BASE_URL}/api/users`, {
             method: 'POST',
@@ -102,8 +100,7 @@ class SignUpModal extends Component{
                 email:{value:''},
                 number: '',
                 password:{value:''},
-                confirm: {value: ''},
-                pw_hint: ''
+                confirm: {value: ''}
             }))
         .catch(error => {
             setError({error})
@@ -112,7 +109,7 @@ class SignUpModal extends Component{
 
     render(){
         const { showSignUp, hideSignUpFxn } = this.context;
-        const { fullname, email, phone, password, confirm, hint } = this.state
+        const { fullname, email, phone, password, confirm } = this.state
         const {pathname} = this.props.location;
         const showHideClassName = showSignUp && pathname === '/signup' ? "signup-modal display-block" : "signup-modal display-none";
         const passwordError = this.validatePassword();
@@ -150,10 +147,6 @@ class SignUpModal extends Component{
                         <input type="password" name="confirm" id="confirm" value={confirm.value} onChange={e => this.updateTextWithTouch(e)}/>
                         <br />
                         {confirm.touched && <ValidationError message = {confirmError}/>}
-                        <br />
-                        <label htmlFor="hint">Choose a password hint:</label>
-                        <br />
-                        <input type="text" name="hint" id="hint" value={hint} onChange={e => this.updateText(e)}/>
                         <br />
                         <div className="signup-button-wrapper">
                             <button type="submit" className="sign-up-button">
