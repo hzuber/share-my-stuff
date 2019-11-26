@@ -8,7 +8,6 @@ import ItemCard from '../itemCard/itemCard';
 import UserSearchBar from '../userSearchBar/userSearchBar';
 import AddItem from '../addItem/addItem';
 import LargeItemCard from '../largeItemCard/largeItemCard'
-import EditItem from '../editItemCard/editItemCard'
 
 export default class UserPage extends Component {
     constructor(props){
@@ -228,12 +227,11 @@ export default class UserPage extends Component {
                         <UserSearchBar/>
                         <ul className="items-container">
                             {itemList.map(item => {
-                                return (<Link to={`/userPage/${user.id}/item/${item.id}`} key={item.id} onClick = {this.clickCard}><ItemCard {...item} deleteCard={this.handleDeleteItem}/></Link>)
+                                return (<Link to={`/userPage/${user.id}/item/${item.id}`} key={item.id} onClick = {this.clickCard}><ItemCard {...item}/></Link>)
                             })}
                         </ul>
                         <Route exact path='/userPage/:user_id/addItem' component={AddItem} />
-                        <Route exact path='/userPage/:user_id/item/:item_id' component={LargeItemCard}/>
-                        <Route exact path='/userPage/:user_id/item/:item_id/editItem' component={EditItem} />
+                        <Route exact path='/userPage/:user_id/item/:item_id' component={LargeItemCard} />
                     </ShareContextUserPage.Provider>
                 </BrowserRouter>
             </div>

@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import ShareContextUserPage from '../shareContextUserPage';
 import config from '../config';
 import moment from 'moment';
-import {Link} from 'react-router-dom';
 import './largeItemCard.css';
 
 export default class LargeItemCard extends Component{
     constructor(props){
         super(props)
-        const itemId = Number(this.props.match.params.item_id)
         this.state = {
             name: '',
             type: '',
@@ -18,7 +16,7 @@ export default class LargeItemCard extends Component{
             borrowed_by: '',
             borrowed_since: '',
             borrowed_input: false,
-            id: itemId
+            id: 0
         }
     }
     static contextType = ShareContextUserPage;
@@ -29,6 +27,7 @@ export default class LargeItemCard extends Component{
     };
 
     componentDidMount(){
+        console.log("edit card")
         const itemId = this.props.match.params.item_id;
         fetch(`${config.API_BASE_URL}/api/items/${itemId}`, {
             method: 'GET'
@@ -44,7 +43,7 @@ export default class LargeItemCard extends Component{
                 borrowed: res.borrowed,
                 borrowed_by: res.borrowed_by,
                 borrowed_since: res.borrowed_since,
-                id: itemId
+                id: Number(res.id)
             })
         })
         .catch(error => {
@@ -83,8 +82,7 @@ export default class LargeItemCard extends Component{
 
     patchItem = () => {
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since, id } = this.state;
-        const numberId = Number(id)
-        const editedItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since, id: numberId };
+        const editedItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since, id };
         const userId = this.props.match.params.user_id;
 
         fetch(`${config.API_BASE_URL}/api/items/${id}`, {
@@ -114,16 +112,16 @@ export default class LargeItemCard extends Component{
             })
         })
         .then(() => {
-            this.props.history.push(`/userPage/${userId}`)
+            this.context.updateEditedItem(editedItem)
         })
         .then(() => {
-           this.context.updateEditedItem(editedItem)
+            this.props.history.push(`/userPage/${userId}`)
         })
         .catch(error => this.context.setError({error}))
     }
 
     deleteItem = () => {
-        const itemId = this.state.id;
+        const itemId = this.props.match.params.item_id;
         const userId = this.props.match.params.user_id;
 
         fetch(`${config.API_BASE_URL}/api/items/${itemId}`, {
@@ -144,18 +142,17 @@ export default class LargeItemCard extends Component{
     }
 
     render(){
-        const { name, type, author, description, borrowed, borrowed_by, borrowed_since, borrowed_input, id } = this.state
-        const { clicked, largeCardShowing, showEditCard } = this.context;
+        const { name, type, author, description, borrowed, borrowed_by, borrowed_since, borrowed_input } = this.state
+        const { clicked, largeCardShowing, showEditCard, editCardShowing, showLargeCard } = this.context;
         const theDate = moment(borrowed_since).format("DD/MM/YYYY")
         const showHideClassName = clicked ? "display-block" : "display-none";
-        const userId = this.props.match.params.user_id;
         return (
             <div className={showHideClassName}>
                 <section className="clicked">
                     {largeCardShowing &&
                         <>
                             <div className="large-card-top-btns">
-                                <Link to ={`/userPage/${userId}/item/${id}/editItem`} className="pencil"><i className="fas fa-pencil-alt" onClick={showEditCard}></i></Link>
+                                <i className="fas fa-pencil-alt" onClick={showEditCard}></i>
                                 <i className="fas fa-trash-alt" onClick={this.deleteItem}></i>
                             </div>
                             <p className="large-name">{name}</p>
@@ -176,6 +173,54 @@ export default class LargeItemCard extends Component{
                             {!borrowed && !borrowed_input && <button className="mark-as-borrowed-btn" onClick={this.markAsBorrowed}>Mark as Borrowed</button>}
                             {borrowed_input && <button className="mark-as-borrowed-btn" onClick={this.patchItem}>Save</button>}
                             {borrowed  && <button className="mark-as-borrowed-btn" onClick={this.markAsReturned}>Mark as Returned</button>}
+                        </>
+                    }
+                    {editCardShowing &&
+                        <>
+                            <button type="button" className="edit-back" onClick={showLargeCard}>
+                                <i className="fas fa-arrow-left"></i>
+                            </button>
+                            <form className="edit-item-form" onSubmit={e => this.handleSubmit(e)}>
+                                <h2>Edit Item</h2>
+                                <label htmlFor="edit-name">Name:</label>
+                                <br />
+                                <input type="text" className="edit-name-input" name="edit-name" id="name" value={name} onChange={(e) => this.changeText(e)}/>
+                                <br />
+                                <label htmlFor="type">Type of item:  </label>
+                                <select name="type" className="edit-type" id="type" onChange={e => this.changeText(e)}>
+                                    <option value={type}>Household</option>
+                                    <option value={type}>Electronics</option>
+                                    <option value={type}>Book</option>
+                                    <option value={type}>Garden</option>
+                                    <option value={type}>Tools</option>
+                                </select>
+                                <br />
+                                {type === "Book" && <>
+                                    <label htmlFor="author">Author:</label>
+                                    <br />
+                                    <input type="author" name="author" id="author" value={author} onChange={e => this.changeText(e)} />
+                                </>}
+                                <br />
+                                {borrowed && <>
+                                    <label htmlFor="edit-whos-borrowing">Being borrowed by: </label>
+                                    <br />
+                                    <input type="text" className="edit-borrowed-by" name="edit-whos-borrowing" id="borrowed_by" value={borrowed_by} onChange={e => this.changeText(e)}/>
+                                    <br />
+                                    <label htmlFor="edit-borrowing-from when">Borrowed since: </label>
+                                    <br />
+                                    <input type="text" className="borrowed_from_when" name="borrowed_from_when" id="borrowed_since" value={borrowed_since} onChange={e => this.changeState(e)} />
+                                    <br />
+                                </>}
+                                <label htmlFor="description">Description:</label>
+                                <br />
+                                <textarea rows="4" cols="50" className="edit-description" name="description" id="description" value={description} onChange={e => this.changeText(e)}/>
+                                <br />
+                                <div className="signup-button-wrapper">
+                                    <button type="submit" className="save-edit-button">
+                                        Save
+                                    </button>
+                                </div>
+                            </form>
                         </>
                     }
                 </section>
