@@ -1,6 +1,7 @@
 {
     "version": 2,
     "name": "share-my-stuff",
+    "alias": "share-my-stuff",
     "routes": [
         {
           "src": "^/static/(.*)",

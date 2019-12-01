@@ -102,6 +102,7 @@ class App extends Component {
           <main>
             <ShareError>
               <ShareContextMain.Provider value={contextValue}>
+                <Route exact path='/)' component={LandingPage} />
                 <Route exact path='/:modal(login|signup|)' component={LandingPage} />
                 <Route exact path='/login' component={LoginModal} />
                 <Route exact path='/signup' component={SignUpModal} />
