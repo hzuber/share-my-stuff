@@ -34,6 +34,7 @@ export default class LargeItemCard extends Component{
         .then(res => (res.ok ? res: Promise.reject(res)))    
         .then(res => res.json())
         .then(res => {
+            //need to control state in the case of patching an edited item.
             this.setState({
                 name: res.name,
                 type: res.type,
@@ -143,9 +144,15 @@ export default class LargeItemCard extends Component{
 
     render(){
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since, borrowed_input } = this.state
-        const { clicked, largeCardShowing, showEditCard, editCardShowing, showLargeCard } = this.context;
+        const { clicked, largeCardShowing, showEditCard, editCardShowing, showLargeCard, unClick } = this.context;
+        const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
+
+        //choose which type to display in the select input
+        const otherItems = itemTypes.filter(item => item !== type)
+        const editTypeOptions = otherItems.map(t => <option key={t} value={t}>{t}</option>);
         const theDate = moment(borrowed_since).format("DD/MM/YYYY")
         const showHideClassName = clicked ? "display-block" : "display-none";
+        //component chooses which elements to display, depeneding whether card is being edited or not, and whether it's a book.
         return (
             <div className={showHideClassName}>
                 <section className="clicked modal">
@@ -185,6 +192,7 @@ export default class LargeItemCard extends Component{
                             <button type="button" className="edit-back" onClick={showLargeCard}>
                                 <i className="fas fa-arrow-left"></i>
                             </button>
+                            <button type="button" className="edit-item-close close" onClick={unClick}>X</button>
                             <form className="edit-item-form" onSubmit={e => this.handleSubmit(e)}>
                                 <h2>Edit Item</h2>
                                 <label htmlFor="edit-name">Name:</label>
@@ -193,11 +201,8 @@ export default class LargeItemCard extends Component{
                                 <br />
                                 <label htmlFor="type">Type of item:  </label>
                                 <select name="type" className="edit-type" id="type" onChange={e => this.changeText(e)}>
-                                    <option value={type}>Household</option>
-                                    <option value={type}>Electronics</option>
-                                    <option value={type}>Book</option>
-                                    <option value={type}>Garden</option>
-                                    <option value={type}>Tools</option>
+                                    <option value={type} key={type}>{type}</option>
+                                    {editTypeOptions}
                                 </select>
                                 <br />
                                 {type === "Book" && <>

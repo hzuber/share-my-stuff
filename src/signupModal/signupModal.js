@@ -53,7 +53,7 @@ class SignUpModal extends Component{
             return 'Password and confirmation do not match.'
         }
     }
-
+//checks that input conforms with standard email address
     validateEmail = () => {
         const {users} = this.context
         const email = this.state.email.value.trim();
@@ -111,6 +111,7 @@ class SignUpModal extends Component{
         const { showSignUp, hideSignUpFxn } = this.context;
         const { fullname, email, phone, password, confirm } = this.state
         const {pathname} = this.props.location;
+        //only show signup modal if path is /signup
         const showHideClassName = showSignUp && pathname === '/signup' ? "signup-modal display-block" : "signup-modal display-none";
         const passwordError = this.validatePassword();
         const confirmError = this.validateConfirm();

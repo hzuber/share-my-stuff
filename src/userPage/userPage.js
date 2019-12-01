@@ -64,7 +64,7 @@ export default class UserPage extends Component {
       })
       this.props.history.goBack()
     }
-
+//not currently implemented, but would add a googleBook API fetch.
     showAddBook = () => {
         this.setState({
           addBookShowing: true
@@ -168,7 +168,7 @@ export default class UserPage extends Component {
         return items.filter(item => item.type === filter)
       }
     }  
-
+//hide navbar on scroll
     handleScroll = () => {
       const { prevScrollpos } = this.state;
   

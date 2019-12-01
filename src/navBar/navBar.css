@@ -1,17 +1,13 @@
-.nav-bar{
-  z-index: 10;
-}
 .nav-ul{
-  z-index: 10;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #0C4139;
-    display: flex;
-    justify-content: space-evenly;
-    top: 0;
-  }
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0C4139;
+  display: flex;
+  justify-content: space-evenly;
+  top: 0;
+}
   .nav-header{
     font-family: 'Staatliches', cursive;
     text-align: center;

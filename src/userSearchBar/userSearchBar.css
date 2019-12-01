@@ -50,7 +50,7 @@ font-size: 16px;
 }
 .hide-type-list{
     margin-top: -350px;
-    z-index: -1000 !important;
+    visibility: hidden;
 }
 
 .type-list{

@@ -28,13 +28,13 @@ class LoginModal extends Component{
         this.handleSubmit(thisUser.id)
         }
     }
-
+//let's client try to re-enter login info
     tryAgain = () => {
         this.setState({
             clicked: false
         })
     }
-
+//bring client to their page
     handleSubmit(id){
         const {history} = this.props
         history.push(`/userPage/${id}`)

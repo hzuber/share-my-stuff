@@ -25,14 +25,14 @@ class AddItem extends Component {
         },
         userId: 0
     };
-
+//get item type from drop down menu in userSearchBar
     componentDidMount(){
         const type = this.context.typeToAdd
         this.setState({
             type
         })
     }
-    
+//change state based on input    
     changeState = (e) => {
         const key = e.target.id;
         const val = e.target.value;
@@ -53,15 +53,16 @@ class AddItem extends Component {
             })
         }
     }
-
+//post new item
     handleSubmit=(e)=>{
         e.preventDefault()
         const userId = this.props.match.params.user_id;
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since } = this.state;
+
+        //translate date input to moment
         const date = borrowed_since === "" ? null : moment(borrowed_since,"YYYY-MM-DD")
         const validateDate = !date ? null : !date.isValid() ? moment().format('DD/MM/YYYY') : date
         const newItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since: validateDate, owned_by: userId }
-        console.log(newItem)
         fetch(`${config.API_BASE_URL}/api/items`, {
             method: 'POST',
             body: JSON.stringify(newItem),
@@ -99,6 +100,8 @@ class AddItem extends Component {
         const {name, type, author, description, borrowed, borrowed_by, borrowed_since} = this.state;
         const { addItemShowing, hideAddItem, typeToAdd } = this.context;
         const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
+
+        //choose which type to display in the select input
         const otherItems = itemTypes.filter(item => item !== this.context.typeToAdd)
         const typeOptions = otherItems.map(type => <option key={type} value={type}>{type}</option>);
         const showHideAddItem = addItemShowing ? "display-block" : "display-none";
