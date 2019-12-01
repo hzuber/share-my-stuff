@@ -11,9 +11,8 @@ export default class LandingPage extends Component {
     render(){
         const { showLogin, showSignUp, showLoginFxn, hideLoginFxn, showSignUpFxn, hideSignUpFxn } = this.context;
         return (
+            <>
             <div className="landing-page-container">
-                <LoginModal show={showLogin} handleClose={hideLoginFxn}/>
-                <SignUpModal show={showSignUp} handleClose={hideSignUpFxn}/>
                 <section className="landing-page-header">
                     <h1>SHARE MY STUFF</h1>
                 </section>
@@ -27,7 +26,7 @@ export default class LandingPage extends Component {
                     </h3>
                     <div className="button-wrapper">
                         <Link to='/login'>
-                            <button type="button" className="log-in-btn" onClick={showLoginFxn}>Log In</button>
+                            <button type="button" className="log-in-btn main-btn" onClick={showLoginFxn}>Login</button>
                         </Link>
                         <Link to="/signup">
                             <p className="sign-up-link" onClick={showSignUpFxn}>Sign Up</p>
@@ -35,6 +34,9 @@ export default class LandingPage extends Component {
                     </div>
                 </section>
             </div>
+            <LoginModal show={showLogin} handleClose={hideLoginFxn}/>
+            <SignUpModal show={showSignUp} handleClose={hideSignUpFxn}/>
+        </>
         )
     }
 }

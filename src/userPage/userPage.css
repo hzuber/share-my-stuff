@@ -3,17 +3,32 @@ body{
     font-family:'Roboto', sans-serif;
   }
 .display-block {
-    display: block;
+    display: flex;
 }
 .display-none {
     display: none;
 }
+.App-header{
+  width: 100%;
+  top: 0;
+  position: fixed;
+  transition: margin 0.5s;
+  z-index: 1000 !important;
+}
+.App-header-hide{
+  top: -50px;
+}
 .userPage-container{
-    padding-top: 50px;
+    background-color: rgb(222, 226, 213);
+    min-height: 100vh;
   }
-.welcome-user{
-    margin: 10px;
-    padding:10px;
+  .search-bar{
+    position: fixed;
+    width: 100%;
+    transition: margin 0.5s;
+  }
+  .search-bar-hide{
+    margin-top: -48px;
   }
   .my-items{
     font-size:24px;
@@ -23,18 +38,57 @@ body{
     display: flex;
     list-style-type: none;
     flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 120px 10px 0px 10px;
+  }
+  .scroll{
+    padding-top: 32px !important;
   }
   .items-container li{
     font-size:18px;
     padding: 15px;
-    border: 5px solid lightgrey;
-    background: lightgrey;
+    border: 3px solid white;
+    background: white;
     border-radius: 10px;
     margin:10px;
+    box-shadow: 2px 2px 5px #616F39
   }
   .items-container li:hover{
       cursor: pointer;
-      background-color: rgb(228, 226, 226);
-      border: 5px solid rgb(228, 226, 226);
+      background-color: rgb(160, 167, 146);
+      border: 3px solid rgb(160, 167, 146);
       transition: 0.3s;
+  }
+  .item-card{
+    flex: 1 1 0;
+    min-width: 200px;
+    max-width: 250px;
+  }
+  .item-card:hover{
+    color: rgb(243, 243, 243) !important;
+  }
+  .no-items{
+    border: rgb(136, 141, 126) 2px solid;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
+    width: 320px;
+    text-align: center;
+    justify-content: center;
+  }
+  .no-items > h3{
+    font-weight: bolder;
+    color:rgb(136, 141, 126);
+    text-align: center;
+  }
+  @media only screen and (max-width: 680px){
+    .welcome-user{
+      font-size: 16px;
+      padding: 5px;
+    }
+  }
+  @media only screen and (max-width: 475px) {
+    .item-card{
+      width: 80vw;
+    }
   }

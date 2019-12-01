@@ -27,7 +27,6 @@ export default class LargeItemCard extends Component{
     };
 
     componentDidMount(){
-        console.log("edit card")
         const itemId = this.props.match.params.item_id;
         fetch(`${config.API_BASE_URL}/api/items/${itemId}`, {
             method: 'GET'
@@ -42,7 +41,7 @@ export default class LargeItemCard extends Component{
                 description: res.description,
                 borrowed: res.borrowed,
                 borrowed_by: res.borrowed_by,
-                borrowed_since: res.borrowed_since,
+                borrowed_since: moment(res.borrowed_since).format("YYYY-MM-DD"),
                 id: Number(res.id)
             })
         })
@@ -64,7 +63,7 @@ export default class LargeItemCard extends Component{
             borrowed: true,
             borrowed_input: true,
             borrowed_by: e.target.value,
-            borrowed_since: moment()
+            borrowed_since: moment().format("YYYY-MM-DD")
         })
     }
 
@@ -112,7 +111,8 @@ export default class LargeItemCard extends Component{
             })
         })
         .then(() => {
-            this.context.updateEditedItem(editedItem)
+            this.context.updateEditedItem(editedItem);
+            this.context.unClick()
         })
         .then(() => {
             this.props.history.push(`/userPage/${userId}`)
@@ -148,31 +148,36 @@ export default class LargeItemCard extends Component{
         const showHideClassName = clicked ? "display-block" : "display-none";
         return (
             <div className={showHideClassName}>
-                <section className="clicked">
+                <section className="clicked modal">
                     {largeCardShowing &&
                         <>
                             <div className="large-card-top-btns">
                                 <i className="fas fa-pencil-alt" onClick={showEditCard}></i>
                                 <i className="fas fa-trash-alt" onClick={this.deleteItem}></i>
                             </div>
-                            <p className="large-name">{name}</p>
-                            <p className="large-type">{type}</p>
-                            {type === "Book" && <p className="large-author">Author: {author}</p>}
-                            <p className="large-description">{description}</p>
-                            {borrowed_input && 
-                                <div className="borrow-input-wrapper">
-                                    <input type="text" className="borrowed-by-input" name="edit-whos-borrowing" id="borrowed_by" value={borrowed_by} onChange={e => this.markAsBorrowed(e)}/>
-                                    <button onClick={this.patchItem} className="confirm-borrower"><i className="far fa-check-circle"></i></button>
-                                </div>}
-                            {!borrowed && <p className="large-being-borrowed">
-                                This item is not currently being borrowed</p>}
-                            {borrowed && <p className="large-being-borrowed">
-                                This item is being borrowed by {borrowed_by}<br />
-                                Borrowed since {theDate}
-                            </p>}
-                            {!borrowed && !borrowed_input && <button className="mark-as-borrowed-btn" onClick={this.markAsBorrowed}>Mark as Borrowed</button>}
-                            {borrowed_input && <button className="mark-as-borrowed-btn" onClick={this.patchItem}>Save</button>}
-                            {borrowed  && <button className="mark-as-borrowed-btn" onClick={this.markAsReturned}>Mark as Returned</button>}
+                            <div className="large-card-content">
+                                <p className="large-name">{name}</p>
+                                <p className="large-type">{type}</p>
+                                {type === "Book" && <p className="large-author">Author: {author}</p>}
+                                <p className="large-description">{description}</p>
+                                {borrowed_input && 
+                                    <div className="borrow-input-wrapper">
+                                        <p>This item is being borrowed by: </p>
+                                        <input type="text" className="borrowed-by-input" name="edit-whos-borrowing" id="borrowed_by" value={borrowed_by} onChange={e => this.markAsBorrowed(e)}/>
+                                        <button onClick={this.patchItem} className="confirm-borrower"><i className="far fa-check-circle"></i></button>
+                                    </div>}
+                                {!borrowed && <p className="large-being-borrowed">
+                                    This item is not currently being borrowed</p>}
+                                {borrowed && !borrowed_input && <p className="large-being-borrowed">
+                                    This item is being borrowed by {borrowed_by}<br />
+                                    Borrowed since {theDate}
+                                </p>}
+                                <div className="large-card-buttons-wrapper">
+                                    {!borrowed && !borrowed_input && <button className="mark-as-borrowed-btn main-btn" onClick={this.markAsBorrowed}>Mark as Borrowed</button>}
+                                    {borrowed_input && <button className="mark-as-borrowed-btn main-btn" onClick={this.patchItem}>Save</button>}
+                                    {borrowed  && <button className="mark-as-borrowed-btn main-btn" onClick={this.markAsReturned}>Mark as Returned</button>}
+                                </div>
+                            </div>
                         </>
                     }
                     {editCardShowing &&
@@ -201,6 +206,12 @@ export default class LargeItemCard extends Component{
                                     <input type="author" name="author" id="author" value={author} onChange={e => this.changeText(e)} />
                                 </>}
                                 <br />
+                                <div className="edit-description-div">
+                                    <label htmlFor="description">Description:</label>
+                                    <br />
+                                    <textarea rows="3" cols="50" className="edit-description" name="description" id="description" value={description} onChange={e => this.changeText(e)}/>
+                                    <br />
+                                </div>
                                 {borrowed && <>
                                     <label htmlFor="edit-whos-borrowing">Being borrowed by: </label>
                                     <br />
@@ -208,15 +219,11 @@ export default class LargeItemCard extends Component{
                                     <br />
                                     <label htmlFor="edit-borrowing-from when">Borrowed since: </label>
                                     <br />
-                                    <input type="text" className="borrowed_from_when" name="borrowed_from_when" id="borrowed_since" value={borrowed_since} onChange={e => this.changeState(e)} />
+                                    <input type="date" className="borrowed_from_when" name="borrowed_from_when" id="borrowed_since" value={borrowed_since} onChange={e => this.changeText(e)} />
                                     <br />
                                 </>}
-                                <label htmlFor="description">Description:</label>
-                                <br />
-                                <textarea rows="4" cols="50" className="edit-description" name="description" id="description" value={description} onChange={e => this.changeText(e)}/>
-                                <br />
                                 <div className="signup-button-wrapper">
-                                    <button type="submit" className="save-edit-button">
+                                    <button type="submit" className="save-edit-button main-btn">
                                         Save
                                     </button>
                                 </div>

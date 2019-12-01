@@ -12,8 +12,10 @@ class UserSearchBar extends Component{
     };
 
     render(){
-        const { user, handleFilterChange, setTypeToAdd, showTypeList, showTypeListFxn, hideTypeListFxn } = this.context
-        const showHideTypeList = showTypeList ? "display-block" : "display-none";
+        const { user, handleFilterChange, setTypeToAdd, showTypeList, showTypeListFxn, hideTypeListFxn, allItems } = this.context
+        const noItemsSort = allItems.length === 0 ? "display-none" : "sort-box";
+        const showHideTypeList = showTypeList ? "display-block type-list" : "hide-type-list";
+        const showHideOverlay = showTypeList ? "complete-overlay-invisible" : "display-none";
         const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
         const typeOptions = itemTypes.map(type => <option key={type} value={type} className="sort-options">{type}</option>);
         const addItemList = itemTypes.map(type => 
@@ -29,28 +31,28 @@ class UserSearchBar extends Component{
                         My Items:
                     </li>
                     <li className="sort">
-                        Sort by:
-                        <select name="type" className="sort-by-type" id="type" onChange={handleFilterChange}>
-                            <option value="no-filter">See all</option>
-                            <optgroup label="Status">
-                                <option value="not-borrowed">Not Borrowed</option>
-                                <option value="borrowed">Borrowed</option>
-                            </optgroup>
-                            <optgroup label="Sort By Type">
-                                {typeOptions}
-                            </optgroup>
-                        </select>
+                        <div className={noItemsSort}>
+                            Sort by:
+                            <select name="type" className="sort-by-type" id="type" onChange={handleFilterChange}>
+                                <option value="no-filter">See all</option>
+                                <optgroup label="Status">
+                                    <option value="not-borrowed">Not Borrowed</option>
+                                    <option value="borrowed">Borrowed</option>
+                                </optgroup>
+                                <optgroup label="Sort By Type">
+                                    {typeOptions}
+                                </optgroup>
+                            </select>
+                        </div>
                     </li>
                     <li className="add-item" onClick={showTypeListFxn}>
-                        Add Item <i className="fas fa-plus"></i>
+                        <p className="add-item-text">Add Item </p><i className="fas fa-plus"></i>
                     </li>
                 </ul>
-                <div className = {showHideTypeList}>
-                    <ul className="type-list">
-                        {addItemList}
-                    </ul>
-                    <div className="complete-overlay" onClick={hideTypeListFxn}></div>
-                </div>
+                <ul className={showHideTypeList}>
+                    {addItemList}
+                </ul>
+                <div className={showHideOverlay} onClick={hideTypeListFxn}></div>
             </>
         )
     }

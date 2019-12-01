@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, withRouter } from 'react-router-dom';
 import './App.css';
 import config from './config'
-import NavBar from './navBar/navBar'
 import LandingPage from './landingPage/landingPage';
 import UserPage from './userPage/userPage'
 import ShareContextMain from './shareContextMain';
@@ -100,15 +99,12 @@ class App extends Component {
     return (
       <div className="App">
         <BrowserRouter>
-          <header className="App-header">
-            <Route path='/' component={NavBar} />
-          </header>
           <main>
             <ShareError>
               <ShareContextMain.Provider value={contextValue}>
+                <Route exact path='/:modal(login|signup|)' component={LandingPage} />
                 <Route exact path='/login' component={LoginModal} />
                 <Route exact path='/signup' component={SignUpModal} />
-                <Route exact path='/:modal(login|signup|)' component={LandingPage} />
               </ShareContextMain.Provider>
               <Route path='/userPage/:user_id/' component={UserPage} />
             </ShareError>

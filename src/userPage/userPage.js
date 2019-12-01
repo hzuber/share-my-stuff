@@ -7,7 +7,8 @@ import ShareContextUserPage from '../shareContextUserPage';
 import ItemCard from '../itemCard/itemCard';
 import UserSearchBar from '../userSearchBar/userSearchBar';
 import AddItem from '../addItem/addItem';
-import LargeItemCard from '../largeItemCard/largeItemCard'
+import LargeItemCard from '../largeItemCard/largeItemCard';
+import NavBar from '../navBar/navBar'
 
 export default class UserPage extends Component {
     constructor(props){
@@ -16,6 +17,8 @@ export default class UserPage extends Component {
             user: {},
             items: [],
             itemList: [],
+            prevScrollpos: window.pageYOffset,
+            navBarVisible: true,
             showTypeList: false,
             addItemShowing: false,
             addBookShowing: false,
@@ -84,7 +87,9 @@ export default class UserPage extends Component {
     }
 
     showTypeListFxn=()=>{
-        this.setState({showTypeList: true})
+        this.state.showTypeList ? 
+          this.setState({showTypeList: false}) : 
+          this.setState({showTypeList: true})
     }
 
     hideTypeListFxn=()=>{
@@ -164,30 +169,49 @@ export default class UserPage extends Component {
       }
     }  
 
-    componentDidMount(){
-        const userId = (this.props.match.params.user_id)
-        Promise.all([
-            fetch(`${config.API_BASE_URL}/api/users/${userId}`),
-            fetch(`${config.API_BASE_URL}/api/users/${userId}/items`)
-        ])
-        .then(([userRes, itemRes]) => {
-            if(!userRes.ok)
-                return userRes.json().then(e => Promise.reject(e));
-            if(!itemRes.ok)
-                return itemRes.json().then(e => Promise.reject(e))
+    handleScroll = () => {
+      const { prevScrollpos } = this.state;
+  
+      const currentScrollPos = window.pageYOffset;
+      const navBarVisible = prevScrollpos > currentScrollPos;
+  
+      this.setState({
+        prevScrollpos: currentScrollPos,
+        navBarVisible
+      });
+    };
 
-            return Promise.all([userRes.json(), itemRes.json()])
-        })
-        .then(([user, items]) => {
-            this.setState({ user, items, itemList: items })
-        })
-        .catch(error => this.setState({error}))
+    componentDidMount(){
+      window.addEventListener("scroll", this.handleScroll);
+      const userId = (this.props.match.params.user_id)
+      Promise.all([
+          fetch(`${config.API_BASE_URL}/api/users/${userId}`),
+          fetch(`${config.API_BASE_URL}/api/users/${userId}/items`)
+      ])
+      .then(([userRes, itemRes]) => {
+          if(!userRes.ok)
+              return userRes.json().then(e => Promise.reject(e));
+          if(!itemRes.ok)
+              return itemRes.json().then(e => Promise.reject(e))
+
+          return Promise.all([userRes.json(), itemRes.json()])
+      })
+      .then(([user, items]) => {
+          this.setState({ user, items, itemList: items })
+      })
+      .catch(error => this.setState({error}))
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener("scroll", this.handleScroll);
     }
 
     render() {
         const contextValue = {
             user: this.state.user,
             items: this.state.itemList,
+            allItems: this.state.items,
+            navBarVisible: this.state.navBarVisible,
             typeToAdd: this.state.typeToAdd,
             showTypeList: this.state.showTypeList,
             error: this.state.error,
@@ -216,22 +240,34 @@ export default class UserPage extends Component {
             showEditCard: this.showEditCard,
             filterItems: this.filterItems
         }
-        const { user, itemList } = this.state;
+        const { user, itemList, items, navBarVisible } = this.state;
+        const noItemsAtAll = items.length === 0 ? "no-items display-block" : "display-none"
+        const hideNavBar = navBarVisible ? "App-header" : "App-header-hide"
+        const hideSearchBar = navBarVisible ? "search-bar" : "search-bar-hide"
+        const scrollItemsContainer = navBarVisible ? "items-container" : "items-container scroll"
+        const noFilteredItems = items.length > 0 && itemList.length === 0 ? "no-items display-block" : "display-none"
+        const startNoItems = <h3>
+                              You haven't added any items yet. Click on Add Item to get started.
+                            </h3>
         return (
             <div className="userPage-container">
                 <BrowserRouter>
-                    <h2 className="welcome-user">
-                        Welcome {user.name}!
-                    </h2>
-                    <ShareContextUserPage.Provider value={contextValue}>
-                        <UserSearchBar/>
-                        <ul className="items-container">
-                            {itemList.map(item => {
-                                return (<Link to={`/userPage/${user.id}/item/${item.id}`} key={item.id} onClick = {this.clickCard}><ItemCard {...item}/></Link>)
-                            })}
-                        </ul>
-                        <Route exact path='/userPage/:user_id/addItem' component={AddItem} />
-                        <Route exact path='/userPage/:user_id/item/:item_id' component={LargeItemCard} />
+                  <ShareContextUserPage.Provider value={contextValue}>
+                    <header className={hideNavBar}>
+                      <NavBar />
+                    </header>
+                    <div  className={hideSearchBar}>
+                      <UserSearchBar/>
+                    </div>
+                      <ul className={scrollItemsContainer}>
+                        <div className = {noItemsAtAll}>{startNoItems}</div>
+                        <div className = {noFilteredItems}><h3>There are no items to display.</h3></div>
+                          {itemList.map(item => {
+                              return (<Link to={`/userPage/${user.id}/item/${item.id}`} key={item.id} onClick = {this.clickCard} className="item-card"><ItemCard {...item}/></Link>)
+                          })}
+                          <Route exact path='/userPage/:user_id/addItem' component={AddItem} />
+                          <Route exact path='/userPage/:user_id/item/:item_id' component={LargeItemCard} />
+                      </ul>
                     </ShareContextUserPage.Provider>
                 </BrowserRouter>
             </div>

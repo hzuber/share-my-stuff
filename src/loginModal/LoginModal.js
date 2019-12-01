@@ -52,8 +52,8 @@ class LoginModal extends Component{
 
         return (
             <div className={showHideClassName}>
-                <section className="login-modal">
-                    <button type="button" className="login-close" onClick={hideLoginFxn}>X</button>
+                <section className="login-modal modal">
+                    <button type="button" className="login-close close" onClick={hideLoginFxn}>X</button>
                     <form className="login-modal-form" onSubmit={ this.handleVerification}>
                         <h2>Log In</h2>
                         <label htmlFor="email">Enter email address:</label>
@@ -64,7 +64,7 @@ class LoginModal extends Component{
                         <br />
                         <input type="password" name="password" id="password" onChange={e => this.tryAgain(e)} />
                         <br />
-                        <button type="submit" className="login-button">
+                        <button type="submit" className="login-button main-btn">
                             Login
                         </button>
                         {clicked && <ValidationError message = {loginError} />}

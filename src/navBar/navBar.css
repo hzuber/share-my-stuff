@@ -1,14 +1,16 @@
 .nav-bar{
-    width: 100%;
-    top: 0;
-    position: fixed;
+  z-index: 10;
 }
 .nav-ul{
+  z-index: 10;
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #0C4139;
+    display: flex;
+    justify-content: space-evenly;
+    top: 0;
   }
   .nav-header{
     font-family: 'Staatliches', cursive;
@@ -17,4 +19,25 @@
     font-size: 30px;
     padding: 5px;
     letter-spacing: 2px;
+  }
+  .nav-header:hover{
+    color: rgb(160, 167, 146)
+  }
+  .welcome-header{
+    color: white;
+    align-self: center;
+    font-size: 18px;
+  }
+  @media only screen and (max-width: 680px){
+    .nav-header{
+      font-size: 24px;
+    }
+    .welcome-header{
+      font-size: 14px;
+    }
+  }
+  @media only screen and (max-width: 475px){
+    .welcome-header{
+      display:none;
+    }
   }

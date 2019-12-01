@@ -118,38 +118,38 @@ class SignUpModal extends Component{
 
         return (
             <div className={showHideClassName}>
-                <section className="signup-modal">
-                    <button type="button" className="signup-close" onClick={hideSignUpFxn}>X</button>
+                <section className="signup-modal modal">
+                    <button type="button" className="signup-close close" onClick={hideSignUpFxn}>X</button>
                     <form className="signup-modal-form" onSubmit = {this.handleSubmit}>
                         <h2>Create A New Account</h2>
-                        <label htmlFor="fullname">Full Name:</label>
+                        <label htmlFor="fullname">Full Name</label>
                         <br />
                         <input type="text"name="fullname" id="fullname" value={fullname} onChange={e => this.updateText(e)}/>
                         <br />
-                        <label htmlFor="email">Email:</label>
+                        <label htmlFor="email">Email</label>
                         <br />
                         <input type="text" name="email" id="email" value={email.value} onChange={e => this.updateTextWithTouch(e)}/>
                         <br />
                         {email.touched && <ValidationError message = {emailError}/>}
                         <br />
-                        <label htmlFor="phone">Phone:</label>
+                        <label htmlFor="phone">Phone<span className="optional">-   optional</span></label>
                         <br />
-                        <input type="text" name="phone" id="phone" value={phone} onChange={e => this.updateText(e)}/>
+                        <input type="text" name="phone" id="phone" value={phone} placeholder="215-555-5555" onChange={e => this.updateText(e)}/>
                         <br />
-                        <label htmlFor="password">Password:</label>
+                        <label htmlFor="password">Password</label>
                         <br />
                         <input type="password" name="password" id="password" value={password.value} onChange={e => this.updateTextWithTouch(e)}/>
                         <br />
                         {password.touched && <ValidationError message = {passwordError}/>}
                         <br />
-                        <label htmlFor="confirm">Confirm password:</label>
+                        <label htmlFor="confirm">Confirm password</label>
                         <br />
                         <input type="password" name="confirm" id="confirm" value={confirm.value} onChange={e => this.updateTextWithTouch(e)}/>
                         <br />
                         {confirm.touched && <ValidationError message = {confirmError}/>}
                         <br />
                         <div className="signup-button-wrapper">
-                            <button type="submit" className="sign-up-button">
+                            <button type="submit" className="sign-up-button main-btn">
                                 Sign Up
                             </button>
                         </div>

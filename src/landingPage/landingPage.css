@@ -3,21 +3,22 @@
     margin: 0px;
   }
   .landing-page-header{
-    background: black;
-    color: white;
+    background:#0C4139;
     text-align: center;
     min-height: 250px;
   }
-  h1{
+  .landing-page-header > h1{
     font-size: 100px;
     padding: 80px 50px;
     font-family: 'Staatliches', cursive;
-    letter-spacing: 3px
+    letter-spacing: 3px;
+    color: white !important;
   }
   .landing-page-content{
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     padding: 40px;
+    color: #0C4139
   }
   h3{
     font-weight: lighter;
@@ -27,29 +28,47 @@
     padding: 30px 20px 0px 20px;
     text-align: center;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
   }
   .log-in-btn{
-    border-radius: 5px;
-    margin: 10px 30%;
     width: 120px;
-    font-size: 24px;
-    padding: 5px 10px;
-    border: 2px solid lightgrey;
-  }
-  .log-in-btn:hover{
-      cursor: pointer;
-      background: black;
-      color: white;
-      border: 2px solid black;
-      transition: 0.3s;
   }
   .sign-up-link:hover{
     cursor: pointer;
     transition: 0.3s;
-    color: grey;
+    color: #E5E0DA;
 }
   .sign-up-link{
+    color: #616F39;
     font-size: 18px;
     padding: 5px;
     text-decoration: underline;
   }
+@media only screen and (max-width: 725px){
+  .landing-page-header{
+    min-height: 150px !important;
+  }
+  .landing-page-header > h1{
+    font-size: 50px !important;
+    padding: 50px 25px;
+  }
+  .landing-page-content{
+    font-size: 17px;
+    padding: 30px;
+  }
+}
+@media only screen and (max-width: 395px){
+  .landing-page-header{
+    min-height: 70px !important;
+  }
+  .landing-page-header > h1{
+    font-size: 35px !important;
+    padding: 30px 25px;
+  }
+  .landing-page-content{
+    font-size: 16px;
+    padding: 25px;
+  }
+}

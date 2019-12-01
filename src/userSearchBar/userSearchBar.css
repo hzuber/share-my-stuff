@@ -1,44 +1,56 @@
 .items-bar{
-display: flex;
-list-style-type: none;
-background-color: lightgrey;
-font-size: 20px;
-align-items: flex-end;
-width: 100%;
-min-width: 454px;
+    display: flex;
+    list-style-type: none;
+    background-color: #616F39;
+    font-size: 20px;
+    align-items: flex-end;
+    width: 100%;
+    min-width: 454px;
+    margin-top: 48px;
 }
 
 .items-bar li{
-padding: 10px;
-margin-right: 50px;
-align-self: center;
+    padding: 10px;
+    margin-right: 50px;
+    align-self: center;
+    color: white;
 }
 
 .sort{
 font-size: 16px;
 }
-
+.sort-box{
+    color: white;
+}
 .sort-by-type{
-
     font-size: 16px;
     padding: 5px 0px;
     margin-left: 5px;
     border: none;
+    background: white;
 }
-
-.sort-by-type:hover{
+.sort-by-type > option:hover{
     cursor: pointer;
+    background-color: #0C4139;
+    color: white;
 }
-
-.add-item{
-    font-size: 16px;
-    list-style-type: none;
-    min-width: 102px;
-}
-
 .add-item:hover{
+    background: #0C4139;
     cursor: pointer;
-    color: rgb(245, 244, 244);
+    transition: 0.3s;
+}
+.add-item-text{
+    display: inline;
+    color: white;
+}
+
+.fa-plus{
+    display: inline;
+    color: white;
+}
+.hide-type-list{
+    margin-top: -350px;
+    z-index: -1000 !important;
 }
 
 .type-list{
@@ -47,36 +59,65 @@ font-size: 16px;
     font-size:18px;
     width: 150px;
     left: 465px;
-    top: 168px;
+    top: 98px;
     overflow: auto;
-    background-color: darkgray;
+    background-color: #616F39;
     list-style-type: none;
     padding: 0px;
+    display: flex;
+    flex-direction: column;
+    transition-duration: 0.5s;
 }
 
 .item-list-li{
     width: 100%;
     padding: 10px 15px;
     z-index: 2 !important;
+    color: white !important;
 }
 
 .item-list-li:hover{
     cursor: pointer;
-    background:rgb(245, 244, 244);
+    background:rgb(222, 226, 213);
     color: rgb(59, 59, 59) !important;
 }
 
-@media only screen and (max-width: 685px){
+@media only screen and (max-width: 680px){
+    .items-bar li{
+        margin-right: 0px;
+        font-size: 16px;
+        padding: 8px;
+    }
+    .items-bar{
+        padding-left: 10px;
+        margin-top: 40px;
+    }
+    .type-list{
+        left: 285px;
+        top:84px;
+    }
+}
+
+@media only screen and (max-width: 475px){
     .my-items{
-        font-size: 20px;
+        display:none;
+    }
+    .sort-by-type{
+        padding: 2px;
+    }
+    .add-item-text{
+        display:none;
     }
     .items-bar li{
         margin-right: 0px;
+        font-size: 16px;
+        padding: 8px;
     }
     .items-bar{
         padding: 0px;
     }
     .type-list{
-        left: 310px;
+        left: 150px;
+        top:80px;
     }
 }
