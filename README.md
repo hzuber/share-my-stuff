@@ -14,3 +14,5 @@ If you don't wish to create an account, and just want to play around, sign in wi
 email hannahzuber@email.com and password password1. 
 
 The Share My Stuff app uses React and is built with Zeit. It uses context to control state. 
+
+![image](https://user-images.githubusercontent.com/44541339/69963525-47fe6f00-1508-11ea-8398-df4ff0c59eff.png)
