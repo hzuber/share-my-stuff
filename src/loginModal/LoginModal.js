@@ -5,6 +5,7 @@ import ShareContextMain from '../shareContextMain';
 import ValidationError from '../validationError'
 
 class LoginModal extends Component{
+    //state keeps track of whether input field has been clicked on yet or not
     state = {
         clicked: false
     }
@@ -18,7 +19,7 @@ class LoginModal extends Component{
         })
         this.userMatch(email.value, password.value)
     }
-
+//validates email and password provided against all users in context
     userMatch(email, password){
         const {users} = this.context;
         const thisUser = users.find(user => user.email === email)
@@ -28,7 +29,7 @@ class LoginModal extends Component{
         this.handleSubmit(thisUser.id)
         }
     }
-//let's client try to re-enter login info
+//lets client try to re-enter login info
     tryAgain = () => {
         this.setState({
             clicked: false

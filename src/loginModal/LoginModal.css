@@ -7,12 +7,19 @@
       margin-left: 0px
     }
   }
+  
+  @media only screen and (min-width: 1200px) {
+    .login-modal {
+        width: 24% !important;
+        left: 38% !important;
+    }
+  }
   .login-modal {
     margin:10px;
     min-height: 40vh;
     max-height: 80vh;
-    width: 350px;
-    left: 30vw;
+    width: 50%;
+    left: 25%;
     top: 15vh;
   }
   .login-modal-form{

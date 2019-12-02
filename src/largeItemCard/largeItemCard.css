@@ -1,7 +1,6 @@
 
 @media only screen and (max-width: 620px) {
     .clicked {
-        max-width:500px!important;
         width: 100% !important;
         left: -10px !important;
         margin-right: 10px !important;
@@ -10,6 +9,13 @@
       margin-right: 20px!important;
     }
   }
+  
+@media only screen and (min-width: 1200px) {
+  .clicked {
+      width: 24% !important;
+      left: 38% !important;
+  }
+}
 .edit-item-close{
   font-size: 24px;
 }
@@ -17,8 +23,8 @@
     margin:10px;
     min-height: 40vh;
     max-height: 80vh;
-    width: 360px;
-    left: 30vw;
+    width: 50%;
+    left: 25%;
     top: 15vh;
 }
 .large-card-top-btns{

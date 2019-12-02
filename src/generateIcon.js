@@ -1,5 +1,6 @@
 import React from 'react'
 
+//generate the font awesome icons for different item types
 export default function generateIcon(type) {
     let icon = "star-of-life"
     switch (type.toLowerCase().trim()) {

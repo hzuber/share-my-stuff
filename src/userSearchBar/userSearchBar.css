@@ -52,7 +52,10 @@ font-size: 16px;
     margin-top: -350px;
     visibility: hidden;
 }
-
+.no-sort-type-list{
+    top: 96px !important;
+    left: 330px !important;
+}
 .type-list{
     position: fixed;
     z-index: 2 !important;

@@ -63,6 +63,7 @@ class AddItem extends Component {
         const date = borrowed_since === "" ? null : moment(borrowed_since,"YYYY-MM-DD")
         const validateDate = !date ? null : !date.isValid() ? moment().format('DD/MM/YYYY') : date
         const newItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since: validateDate, owned_by: userId }
+        
         fetch(`${config.API_BASE_URL}/api/items`, {
             method: 'POST',
             body: JSON.stringify(newItem),
@@ -78,6 +79,7 @@ class AddItem extends Component {
             }
             return res.json()
         })
+        //set all fields to blank, add new items to items in context
         .then((data) => {
             this.setState({
                 name: "",
@@ -104,6 +106,8 @@ class AddItem extends Component {
         //choose which type to display in the select input
         const otherItems = itemTypes.filter(item => item !== this.context.typeToAdd)
         const typeOptions = otherItems.map(type => <option key={type} value={type}>{type}</option>);
+        
+        //displays modal only if it is required by context
         const showHideAddItem = addItemShowing ? "display-block" : "display-none";
         return (
             <div className={showHideAddItem}>

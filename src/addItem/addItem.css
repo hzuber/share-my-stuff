@@ -1,12 +1,17 @@
 @media only screen and (max-width: 620px) {
     .add-item-container {
-        max-width:500px!important;
         width: 100% !important;
         left: -10px !important;
         margin-right: 0px !important;
         margin-left: 0px
     }
-  }
+}
+@media only screen and (min-width: 1200px) {
+    .add-item-container {
+        width: 24% !important;
+        left: 38% !important;
+    }
+}
 .add-item-author-div{
     margin: 0px;
 }
@@ -17,8 +22,8 @@
     margin:10px;
     min-height: 40vh;
     max-height: 80vh;
-    width: 350px;
-    left: 30vw;
+    width: 40%;
+    left: 30%;
     top: 15vh;
   }
 .add-item-form{

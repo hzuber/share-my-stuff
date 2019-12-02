@@ -37,7 +37,8 @@ body{
     display: flex;
     list-style-type: none;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: stretch;
     padding: 120px 10px 0px 10px;
   }
   .scroll{
@@ -50,7 +51,8 @@ body{
     background: white;
     border-radius: 10px;
     margin:10px;
-    box-shadow: 2px 2px 5px #616F39
+    box-shadow: 2px 2px 5px #616F39;
+    height: 90%;
   }
   .items-container li:hover{
       cursor: pointer;
@@ -59,12 +61,10 @@ body{
       transition: 0.3s;
   }
   .item-card{
-    flex: 1 1 0;
+    flex-basis: 100%;
+    width: 100%;
     min-width: 200px;
-    max-width: 250px;
-  }
-  .item-card:hover{
-    color: rgb(243, 243, 243) !important;
+    max-width: 280px;
   }
   .no-items{
     border: rgb(136, 141, 126) 2px solid;
@@ -86,8 +86,8 @@ body{
       padding: 5px;
     }
   }
-  @media only screen and (max-width: 475px) {
+  @media only screen and (max-width: 500px) {
     .item-card{
-      width: 80vw;
+      max-width: 500px !important;
     }
   }

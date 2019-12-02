@@ -13,10 +13,13 @@ class UserSearchBar extends Component{
 
     render(){
         const { user, handleFilterChange, setTypeToAdd, showTypeList, showTypeListFxn, hideTypeListFxn, allItems } = this.context
+        //if user has no items, remove filter 
         const noItemsSort = allItems.length === 0 ? "display-none" : "sort-box";
-        const showHideTypeList = showTypeList ? "display-block type-list" : "hide-type-list";
+        //adds class to drop down when no filter, for design purposes
+        const noItemsAdd = allItems.length === 0 ? "no-sort-type-list" : ""
+        const showHideTypeList = showTypeList ? "display-block type-list " : "hide-type-list ";
         const showHideOverlay = showTypeList ? "complete-overlay-invisible" : "display-none";
-        const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
+        const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys", "Other"];
         const typeOptions = itemTypes.map(type => <option key={type} value={type} className="sort-options">{type}</option>);
         const addItemList = itemTypes.map(type => 
                                                 <Link to={`/userPage/${user.id}/addItem`} key={type}>
@@ -49,7 +52,7 @@ class UserSearchBar extends Component{
                         <p className="add-item-text">Add Item </p><i className="fas fa-plus"></i>
                     </li>
                 </ul>
-                <ul className={showHideTypeList}>
+                <ul className={showHideTypeList + noItemsAdd}>
                     {addItemList}
                 </ul>
                 <div className={showHideOverlay} onClick={hideTypeListFxn}></div>

@@ -50,7 +50,7 @@ export default class UserPage extends Component {
             this.runFilter
         )
     }
-
+//show addItem modal
     showAddItem = () => {
       this.setState({
         addItemShowing: true,
@@ -64,6 +64,7 @@ export default class UserPage extends Component {
       })
       this.props.history.goBack()
     }
+
 //not currently implemented, but would add a googleBook API fetch.
     showAddBook = () => {
         this.setState({
@@ -77,7 +78,7 @@ export default class UserPage extends Component {
         })
         this.props.history.goBack()
     }
-
+//choose which type of item to add
     setTypeToAdd = (type) =>{
         this.setState({
             showTypeList: false,
@@ -85,7 +86,7 @@ export default class UserPage extends Component {
             typeToAdd: type
         })
     }
-
+//display item type list under add item button
     showTypeListFxn=()=>{
         this.state.showTypeList ? 
           this.setState({showTypeList: false}) : 
@@ -114,13 +115,15 @@ export default class UserPage extends Component {
       }, 
       this.runFilter)
   }
-  
+ 
+//set which type of filter to apply
     handleFilterChange = (e) => {
       this.setState({
         filter: (e.target.value)
       }, this.runFilter)
     }
-  
+
+//set itemList to filtered items
     runFilter = () => {
       this.setState({
         itemList: this.filterItems()
@@ -184,6 +187,7 @@ export default class UserPage extends Component {
     componentDidMount(){
       window.addEventListener("scroll", this.handleScroll);
       const userId = (this.props.match.params.user_id)
+      //fetch user info and items belonging to user
       Promise.all([
           fetch(`${config.API_BASE_URL}/api/users/${userId}`),
           fetch(`${config.API_BASE_URL}/api/users/${userId}/items`)
@@ -245,7 +249,9 @@ export default class UserPage extends Component {
         const hideNavBar = navBarVisible ? "App-header" : "App-header-hide"
         const hideSearchBar = navBarVisible ? "search-bar" : "search-bar-hide"
         const scrollItemsContainer = navBarVisible ? "items-container" : "items-container scroll"
+        //if the user has items but none of the items match the filter
         const noFilteredItems = items.length > 0 && itemList.length === 0 ? "no-items display-block" : "display-none"
+        //if the user has no items
         const startNoItems = <h3>
                               You haven't added any items yet. Click on Add Item to get started.
                             </h3>

@@ -5,7 +5,6 @@ import config from '../config'
 import ValidationError from '../validationError'
 import './signupModal.css'
 
-
 class SignUpModal extends Component{
     constructor(props){
         super(props);
@@ -19,6 +18,7 @@ class SignUpModal extends Component{
     }
     static contextType = ShareContextMain;
 
+    //updates state based on what user has typed
     updateText = (e) => {
         const key = e.target.id;
         const value = e.target.value;
@@ -26,7 +26,7 @@ class SignUpModal extends Component{
             [key]: value
         })
     }
-
+    //updates state of required fields
     updateTextWithTouch = (e) => {
         const key = e.target.id;
         const value = e.target.value;
@@ -35,6 +35,7 @@ class SignUpModal extends Component{
         })
     }
 
+//ensure password is the correct length
     validatePassword = () => {
         const password = this.state.password.value.trim();
         if (password.length === 0) {
@@ -44,6 +45,7 @@ class SignUpModal extends Component{
         }
     }
 
+//matches password and confirm password fields
     validateConfirm = () => {
         const password = this.state.password.value.trim();
         const confirm = this.state.confirm.value.trim();
@@ -75,6 +77,7 @@ class SignUpModal extends Component{
         const password= this.state.password.value;
         const newUser = { name, email, number, password}
 
+        //adds user to the database
         fetch(`${config.API_BASE_URL}/api/users`, {
             method: 'POST',
             body: JSON.stringify(newUser),
@@ -113,6 +116,8 @@ class SignUpModal extends Component{
         const {pathname} = this.props.location;
         //only show signup modal if path is /signup
         const showHideClassName = showSignUp && pathname === '/signup' ? "signup-modal display-block" : "signup-modal display-none";
+
+        //if validated input is incorrect show corresponding error
         const passwordError = this.validatePassword();
         const confirmError = this.validateConfirm();
         const emailError = this.validateEmail();
@@ -123,7 +128,7 @@ class SignUpModal extends Component{
                     <button type="button" className="signup-close close" onClick={hideSignUpFxn}>X</button>
                     <form className="signup-modal-form" onSubmit = {this.handleSubmit}>
                         <h2>Create A New Account</h2>
-                        <label htmlFor="fullname">Full Name</label>
+                        <label htmlFor="fullname">Full Name<span className="optional">-   optional</span></label>
                         <br />
                         <input type="text"name="fullname" id="fullname" value={fullname} onChange={e => this.updateText(e)}/>
                         <br />

@@ -6,6 +6,7 @@ import generateIcon from "../generateIcon"
 function ItemCard (props) {
     const { name, type, author, borrowed, borrowed_by, borrowed_since} = props
     const theDate = moment(borrowed_since).format("DD/MM/YYYY")
+    //generates a border if item is borrowed, shows author if the item type is Book.
     return( 
         <li className={borrowed ? "borrowed" : null}>
             {type && generateIcon(type)}

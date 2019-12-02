@@ -18,6 +18,7 @@ class App extends Component {
     error: null,
   };
 
+  //add a new user to state
   newUserSignUp = (newUser) => {
     this.setState({
       users: [...this.state.users, { newUser }]
@@ -30,6 +31,7 @@ class App extends Component {
     })
   }
 
+  //display login modal
   showLoginFxn = () => {
     this.setState({ showLogin: true })
   };
@@ -39,6 +41,7 @@ class App extends Component {
     this.props.history.push('/')
   }
 
+  //display signup modal
   showSignUpFxn = () => {
     this.setState({ showSignUp: true })
   };
@@ -48,6 +51,7 @@ class App extends Component {
     this.props.history.push('/')
   }
 
+  //get all users and all items in the database
   componentDidMount() {
     Promise.all([
       fetch(`${config.API_BASE_URL}/api/users`, {
@@ -102,7 +106,6 @@ class App extends Component {
           <main>
             <ShareError>
               <ShareContextMain.Provider value={contextValue}>
-                <Route exact path='/)' component={LandingPage} />
                 <Route exact path='/:modal(login|signup|)' component={LandingPage} />
                 <Route exact path='/login' component={LoginModal} />
                 <Route exact path='/signup' component={SignUpModal} />

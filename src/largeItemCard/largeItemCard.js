@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ShareContextUserPage from '../shareContextUserPage';
+import Confirm from '../confirmation/confirm';
 import config from '../config';
 import moment from 'moment';
 import './largeItemCard.css';
@@ -16,7 +17,8 @@ export default class LargeItemCard extends Component{
             borrowed_by: '',
             borrowed_since: '',
             borrowed_input: false,
-            id: 0
+            id: 0,
+            showConfirm: false,
         }
     }
     static contextType = ShareContextUserPage;
@@ -51,6 +53,18 @@ export default class LargeItemCard extends Component{
         })
     }
 
+    showConfirmWindow = () => {
+      this.setState({
+        showConfirm: true
+      })
+    }
+
+    hideConfirmWindow = () => {
+      this.setState({
+        showConfirm: false
+      })
+    }
+
     changeText = (e) => {
         const key = e.target.id
         const val = e.target.value
@@ -82,9 +96,15 @@ export default class LargeItemCard extends Component{
 
     patchItem = () => {
         const { name, type, author, description, borrowed, borrowed_by, borrowed_since, id } = this.state;
-        const editedItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since, id };
-        const userId = this.props.match.params.user_id;
 
+        //configure date to be properly received by API.
+        const date = borrowed_since === "" ? null : moment(borrowed_since,"YYYY-MM-DD")
+
+        const validateDate = !date ? null : !date.isValid() ? moment().format('DD/MM/YYYY') : date
+        const editedItem = { name, type, author, description, borrowed, borrowed_by, borrowed_since: validateDate, id };
+        const userId = this.props.match.params.user_id;
+        
+        //edit item in database
         fetch(`${config.API_BASE_URL}/api/items/${id}`, {
             method: 'PATCH',
             body: JSON.stringify(editedItem),
@@ -112,8 +132,9 @@ export default class LargeItemCard extends Component{
             })
         })
         .then(() => {
+            //edit item in context
             this.context.updateEditedItem(editedItem);
-            this.context.unClick()
+            this.context.unClick();
         })
         .then(() => {
             this.props.history.push(`/userPage/${userId}`)
@@ -124,7 +145,7 @@ export default class LargeItemCard extends Component{
     deleteItem = () => {
         const itemId = this.props.match.params.item_id;
         const userId = this.props.match.params.user_id;
-
+        //delete item from database
         fetch(`${config.API_BASE_URL}/api/items/${itemId}`, {
             method: 'DELETE'
         })
@@ -136,6 +157,7 @@ export default class LargeItemCard extends Component{
             }
         })
         .then(() => {
+            //delete item from context
             this.props.history.push(`/userPage/${userId}`);
             this.context.handleDeleteItem(itemId);
         })
@@ -143,24 +165,25 @@ export default class LargeItemCard extends Component{
     }
 
     render(){
-        const { name, type, author, description, borrowed, borrowed_by, borrowed_since, borrowed_input } = this.state
+        const { name, type, author, description, borrowed, borrowed_by, borrowed_since, borrowed_input, showConfirm } = this.state
         const { clicked, largeCardShowing, showEditCard, editCardShowing, showLargeCard, unClick } = this.context;
-        const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys"];
+        const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys", "Other"];
 
         //choose which type to display in the select input
         const otherItems = itemTypes.filter(item => item !== type)
         const editTypeOptions = otherItems.map(t => <option key={t} value={t}>{t}</option>);
         const theDate = moment(borrowed_since).format("DD/MM/YYYY")
         const showHideClassName = clicked ? "display-block" : "display-none";
-        //component chooses which elements to display, depeneding whether card is being edited or not, and whether it's a book.
+        //component chooses which elements to display, depending whether card is being edited or not, and whether it's a book.
         return (
             <div className={showHideClassName}>
                 <section className="clicked modal">
+                    { showConfirm && <Confirm submit={() => this.deleteItem()} hide={() => this.hideConfirmWindow()}/>}
                     {largeCardShowing &&
                         <>
                             <div className="large-card-top-btns">
                                 <i className="fas fa-pencil-alt" onClick={showEditCard}></i>
-                                <i className="fas fa-trash-alt" onClick={this.deleteItem}></i>
+                                <i className="fas fa-trash-alt" onClick={this.showConfirmWindow}></i>
                             </div>
                             <div className="large-card-content">
                                 <p className="large-name">{name}</p>

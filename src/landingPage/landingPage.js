@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import './landingPage.css';
-import LoginModal from '../loginModal/LoginModal';
-import SignUpModal from '../signupModal/signupModal';
 import ShareContextMain from '../shareContextMain';
 
 export default class LandingPage extends Component {
     static contextType = ShareContextMain;
     
     render(){
-        const { showLogin, showSignUp, showLoginFxn, hideLoginFxn, showSignUpFxn, hideSignUpFxn } = this.context;
+        const { showLoginFxn, showSignUpFxn } = this.context;
         return (
             <>
             <div className="landing-page-container">
@@ -34,8 +32,6 @@ export default class LandingPage extends Component {
                     </div>
                 </section>
             </div>
-            <LoginModal show={showLogin} handleClose={hideLoginFxn}/>
-            <SignUpModal show={showSignUp} handleClose={hideSignUpFxn}/>
         </>
         )
     }
