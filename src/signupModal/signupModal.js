@@ -1,6 +1,6 @@
 import React, {Component} from 'react'; 
+import {withRouter} from 'react-router-dom'
 import ShareContextMain from '../shareContextMain';
-import { withRouter } from 'react-router-dom'
 import config from '../config'
 import ValidationError from '../validationError'
 import './signupModal.css'
@@ -114,10 +114,9 @@ class SignUpModal extends Component{
         const { showSignUp, hideSignUpFxn } = this.context;
         const { fullname, email, phone, password, confirm } = this.state
         const {pathname} = this.props.location;
+        console.log(pathname)
         //only show signup modal if path is /signup
         const showHideClassName = showSignUp && pathname === '/signup' ? "signup-modal display-block" : "signup-modal display-none";
-
-        //if validated input is incorrect show corresponding error
         const passwordError = this.validatePassword();
         const confirmError = this.validateConfirm();
         const emailError = this.validateEmail();
@@ -167,5 +166,4 @@ class SignUpModal extends Component{
         )
     }
 }
-
 export default withRouter(SignUpModal)

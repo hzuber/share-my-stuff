@@ -50,7 +50,6 @@ class LoginModal extends Component{
             if( pathname !== "/login" ) {
                 return null;
             }
-
         return (
             <div className={showHideClassName}>
                 <section className="login-modal modal">
@@ -77,5 +76,4 @@ class LoginModal extends Component{
         )
     }
 }
-
 export default withRouter(LoginModal)
