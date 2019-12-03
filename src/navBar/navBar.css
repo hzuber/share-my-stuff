@@ -17,7 +17,8 @@
     letter-spacing: 2px;
   }
   .nav-header:hover{
-    color: rgb(160, 167, 146)
+    color: rgb(160, 167, 146);
+    cursor: pointer;
   }
   .welcome-header{
     color: white;
