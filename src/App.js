@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import './App.css';
 import config from './config'
 import LandingPage from './landingPage/landingPage';
@@ -102,7 +102,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <BrowserRouter>
+        <Router>
           <main>
             <ShareError>
               <ShareContextMain.Provider value={contextValue}>
@@ -113,7 +113,7 @@ class App extends Component {
               <Route path='/userPage/:user_id/' component={UserPage} />
             </ShareError>
           </main>
-        </BrowserRouter>
+        </Router>
       </div>
     );
   }
