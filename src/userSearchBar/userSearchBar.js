@@ -14,9 +14,9 @@ class UserSearchBar extends Component{
     render(){
         const { user, handleFilterChange, setTypeToAdd, showTypeList, showTypeListFxn, hideTypeListFxn, allItems } = this.context
         //if user has no items, remove filter 
-        const noItemsSort = allItems.length === 0 ? "display-none" : "sort-box";
+        const noItemsSort = allItems === undefined ? "display-none" : allItems.length === 0 ? "display-none" : "sort-box";
         //adds class to drop down when no filter, for design purposes
-        const noItemsAdd = allItems.length === 0 ? "no-sort-type-list" : ""
+        const noItemsAdd = allItems === undefined ? "no-sort-type-list" : allItems.length === 0 ? "no-sort-type-list" : ""
         const showHideTypeList = showTypeList ? "display-block type-list " : "hide-type-list ";
         const showHideOverlay = showTypeList ? "complete-overlay-invisible" : "display-none";
         const itemTypes = ["Book", "Household", "Garden", "Tools", "Electronics", "Toys", "Other"];

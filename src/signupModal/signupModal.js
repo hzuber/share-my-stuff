@@ -1,6 +1,5 @@
 import React, {Component} from 'react'; 
 import ShareContextMain from '../shareContextMain';
-import { withRouter } from 'react-router-dom'
 import config from '../config'
 import ValidationError from '../validationError'
 import './signupModal.css'
@@ -168,4 +167,4 @@ class SignUpModal extends Component{
     }
 }
 
-export default withRouter(SignUpModal)
+export default SignUpModal;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom'
+import {BrowserRouter as Router} from 'react-router-dom'
 import './addItem.css';
 import moment from 'moment';
 import ShareContextUserPage from '../shareContextUserPage';
@@ -111,6 +111,7 @@ class AddItem extends Component {
         const showHideAddItem = addItemShowing ? "display-block" : "display-none";
         return (
             <div className={showHideAddItem}>
+                <Router>
                 <section className="add-item-container modal">
                     <button type="button" className="add-item-close close" onClick={hideAddItem}>X</button>
                     <form className="add-item-form" onSubmit={this.handleSubmit}>
@@ -160,9 +161,10 @@ class AddItem extends Component {
                     </form>
                 </section>
             <div className="complete-overlay" onClick={hideAddItem}></div>
+            </Router>
             </div>
         )
     }
 }
 
-export default withRouter(AddItem);
+export default AddItem;
